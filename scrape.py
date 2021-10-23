@@ -1,0 +1,127 @@
+from string import capwords
+import urllib.error as err
+from urllib.request import urlopen as uReq
+import certifi
+import ssl
+from bs4 import BeautifulSoup as soup
+
+artist = "Travis Scott"
+
+def scrape_data(artist):
+	data = []
+	page = grab_page(artist)
+	albums = get_artist_albums(page)
+
+	for album in albums:
+		print(album)
+		page = grab_page(album)
+		songs = get_album_songs(page, album)
+		data.append((songs, album))
+
+	return data
+
+
+def get_artist_albums(page_html):
+
+	albums = []
+	page_soup = soup(page_html, "html.parser")
+
+	target = page_soup.find('h2',text="Discography")
+
+	if target == None:
+		target = page_soup.find('dl',text="Studio albums")
+
+	if target == None:
+		targets = page_soup.find_all("h2")
+		for i in targets:
+			nt = i.find(id="Discography")
+			if nt != None:
+				target = i
+				break
+
+
+	for sib in target.find_next_siblings():
+
+		if sib.name=="ul":
+			albums = sib.text.split('\n')
+			break
+
+	cutAlbums = [album_year_cut(a) for a in albums]
+
+	return(cutAlbums)
+
+def get_album_songs(page_html, album):
+
+	songs = []
+	page_soup = soup(page_html, "html.parser")
+
+	table = page_soup.find("table", class_="tracklist")
+
+	rows = table.tbody.findAll('tr')
+	for row in rows:
+		nss = row.find_all('td')
+		if len(nss) > 1:
+			songs.append(nss[0].text)
+
+	return(songs)
+
+
+
+def album_year_cut(album):
+	newAlbum = ""
+	for l in album:
+		if l != '(':
+			newAlbum += l
+		else:
+			return newAlbum[:-1]
+
+
+def grab_page(search):
+
+	word = rename(search)
+	my_url = ''
+	for addon in addons:
+		my_url = 'https://en.wikipedia.org/wiki/' + word + "_(" + addon + ")"
+		try:
+			uClient = uReq(my_url, context=ssl.create_default_context(cafile=certifi.where()))
+			print(my_url)
+			break
+		except err.HTTPError as exception:
+			my_url = 'https://en.wikipedia.org/wiki/' + word
+
+	uClient = uReq(my_url, context=ssl.create_default_context(cafile=certifi.where()))
+	page = uClient.read()
+	uClient.close()
+
+	return page
+
+def rename(word):
+	capitalised = capitalise(word)
+	underscored = underscore(capitalised)
+	return underscored
+
+def underscore(word):
+	break_word = word.split(' ')
+	new_word = '_'.join(break_word)
+	return(new_word)
+
+def capitalise(word):
+	cap_str = capwords(word)
+	cap = list(cap_str)
+	for l in range(1, len(cap) - 3):
+		if cap[l] == ' ' and cap[l + 1] == 'O' and cap[l + 2] == 'f' and cap[l + 3] == ' ':
+			cap[l + 1] = 'o'
+		if cap[l] == ' ' and cap[l + 1] == 'A' and cap[l + 2] == ' ':
+			cap[l + 1] = 'a'
+		if cap[l] == ' ' and cap[l + 1] == 'I' and cap[l + 2] == 'n' and cap[l + 3] == ' ':
+			cap[l + 1] = 'i'
+		if cap[l] == ' ' and cap[l + 1] == 'T' and cap[l + 2] == 'h' and cap[l + 3] == 'e' and cap[
+			l + 4] == ' ':
+			cap[l + 1] = 't'
+	cap_str = "".join(cap)
+
+	return(cap_str)
+
+
+addons = [rename(artist) + '_album', 'band', 'album', 'musician']
+scrape_data(artist)
