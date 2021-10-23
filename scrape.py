@@ -5,18 +5,21 @@ import certifi
 import ssl
 from bs4 import BeautifulSoup as soup
 
-artist = "Travis Scott"
+addons = ['band', 'album', 'musician']
 
 def scrape_data(artist):
+	addons.insert(0, rename(artist) + '_album')
 	data = []
 	page = grab_page(artist)
-	albums = get_artist_albums(page)
+	if page != None:
+		albums = get_artist_albums(page)
 
-	for album in albums:
-		print(album)
-		page = grab_page(album)
-		songs = get_album_songs(page, album)
-		data.append((songs, album))
+		for album in albums:
+			apage = grab_page(album)
+			if apage != None:
+				songs = get_album_songs(apage, album)
+				if songs != None:
+					data.append((songs, album))
 
 	return data
 
@@ -56,6 +59,8 @@ def get_album_songs(page_html, album):
 	page_soup = soup(page_html, "html.parser")
 
 	table = page_soup.find("table", class_="tracklist")
+	if table == None:
+		return None
 
 	rows = table.tbody.findAll('tr')
 	for row in rows:
@@ -84,14 +89,16 @@ def grab_page(search):
 		my_url = 'https://en.wikipedia.org/wiki/' + word + "_(" + addon + ")"
 		try:
 			uClient = uReq(my_url, context=ssl.create_default_context(cafile=certifi.where()))
-			print(my_url)
 			break
 		except err.HTTPError as exception:
 			my_url = 'https://en.wikipedia.org/wiki/' + word
-
-	uClient = uReq(my_url, context=ssl.create_default_context(cafile=certifi.where()))
-	page = uClient.read()
-	uClient.close()
+	try:
+		uClient = uReq(my_url, context=ssl.create_default_context(cafile=certifi.where()))
+		page = uClient.read()
+		uClient.close()
+	except err.HTTPError as exception:
+		"Album Or Artist Not Found"
+		page = None
 
 	return page
 
@@ -121,7 +128,3 @@ def capitalise(word):
 	cap_str = "".join(cap)
 
 	return(cap_str)
-
-
-addons = [rename(artist) + '_album', 'band', 'album', 'musician']
-scrape_data(artist)

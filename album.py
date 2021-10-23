@@ -1,9 +1,9 @@
-import song
+from song import Song
 
 class Album:
     name: str
     score: int
-    Songs: [song]
+    Songs: list[Song]
 
     def __init__(self, name, Songs):
         self.name = name
