@@ -5,17 +5,18 @@ import certifi
 import ssl
 from bs4 import BeautifulSoup as soup
 
-addons = ['band', 'album', 'musician']
+addons = ['musician', 'band', 'album']
+# artist = "car seat headrest"
 
 def scrape_data(artist):
-	addons.insert(0, rename(artist) + '_album')
+	addons.insert(2, rename(artist) + '_album')
 	data = []
-	page = grab_page(artist)
+	page = grab_page(artist, addons)
 	if page != None:
 		albums = get_artist_albums(page)
 
 		for album in albums:
-			apage = grab_page(album)
+			apage = grab_page(album, addons[2:])
 			if apage != None:
 				songs = get_album_songs(apage, album)
 				if songs != None:
@@ -42,14 +43,22 @@ def get_artist_albums(page_html):
 				target = i
 				break
 
-
 	for sib in target.find_next_siblings():
 
 		if sib.name=="ul":
 			albums = sib.text.split('\n')
 			break
 
-	cutAlbums = [album_year_cut(a) for a in albums]
+		if sib.name=="table":
+			table = sib
+			rows = table.tbody.findAll('tr')
+			for row in range(2, len(rows) -1):
+				nss = rows[row].find_all('th')[0].text
+				if len(nss) > 2:
+					albums.append(nss)
+			break
+
+	cutAlbums = [album_cut(a) for a in albums]
 
 	return(cutAlbums)
 
@@ -60,6 +69,7 @@ def get_album_songs(page_html, album):
 
 	table = page_soup.find("table", class_="tracklist")
 	if table == None:
+		print("songs not found")
 		return None
 
 	rows = table.tbody.findAll('tr')
@@ -70,18 +80,23 @@ def get_album_songs(page_html, album):
 
 	return(songs)
 
-
+def album_cut(album):
+	no_n = album_backn_cut(album)
+	no_year = album_year_cut(no_n)
+	return no_year
 
 def album_year_cut(album):
 	newAlbum = ""
-	for l in album:
-		if l != '(':
-			newAlbum += l
-		else:
-			return newAlbum[:-1]
+	for l in range(len(album) - 1, 0-1, -1):
+		if album[l] == '(' and len(album) > l + 5 and album[l + 5] == ')':
+			return album[:l]
+	return album
+
+def album_backn_cut(album):
+	return album.strip()
 
 
-def grab_page(search):
+def grab_page(search, addons):
 
 	word = rename(search)
 	my_url = ''
@@ -128,3 +143,5 @@ def capitalise(word):
 	cap_str = "".join(cap)
 
 	return(cap_str)
+
+# scrape_data(artist)

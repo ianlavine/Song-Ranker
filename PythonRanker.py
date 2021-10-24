@@ -226,20 +226,6 @@ class Play:
             elif response == '5':
                 self.user_compare()
 
-# Albums = []
-# Albums.append(Album('The Slug', [self.Songs[0], self.Songs[1], self.Songs[2], self.Songs[3], self.Songs[4], self.Songs[5]]))
-# Albums.append(Album('Morrison', [self.Songs[6], self.Songs[7], self.Songs[8], self.Songs[9], self.Songs[10], self.Songs[11]]))
-# Albums.append(Album('Asians', [self.Songs[12], self.Songs[13], self.Songs[14]]))
-# Albums.append(Album('Entity', [self.Songs[15], self.Songs[16], self.Songs[17], self.Songs[18]]))
-# Albums.append(Album('Hutton', [self.Songs[19], self.Songs[20], self.Songs[21]]))
-# Albums.append(Album('Ella', [self.Songs[22], self.Songs[23]]))
-# Albums.append(Album('5th floor Gang', [self.Songs[24], self.Songs[25], self.Songs[26]]))
-# Albums.append(Album('Icarly', [self.Songs[27], self.Songs[28], self.Songs[29], self.Songs[30], self.Songs[31]]))
-# Albums.append(Album('Randoself.Songs', [self.Songs[32], self.Songs[33], self.Songs[34], self.Songs[35], self.Songs[36], self.Songs[37], self.Songs[38]]))
-# Albums.append(Album('RandoGuys', [self.Songs[39], self.Songs[40], self.Songs[41], self.Songs[42], self.Songs[43], self.Songs[44], self.Songs[45]]))
-# Albums.append(Album('Loudon', [self.Songs[46], self.Songs[47], self.Songs[48]]))
-# Albums.append(Album('Bitches', [self.Songs[49], self.Songs[50], self.Songs[51], self.Songs[52], self.Songs[53], self.Songs[54]]))
-
 
 def showAlbumstats(Albums):
     for album in Albums:
