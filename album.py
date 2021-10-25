@@ -13,6 +13,10 @@ class Album:
     def recalc(self):
         self.score = sum([x.score for x in self.Songs]) / len(self.Songs)
 
+    def reset(self):
+        for song in self.Songs:
+            song.score == 1000
+
     def __str__(self) -> str:
         """Return a string representation of this tree.
         """

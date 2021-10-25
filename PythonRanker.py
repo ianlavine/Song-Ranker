@@ -4,6 +4,7 @@ import sys
 from scrape import scrape_data
 from song import Song
 from album import Album
+from artist import Artist
 
 user = 0
 match = 0
@@ -17,6 +18,7 @@ match = 0
     # self.Songs.append(Song(values[i].strip('\n'), float(values[i + 1]), int(values[i + 2])))
 
 class Play:
+    Artists: list[Artist]
     Songs: list[Song]
     Albums: list[Album]
 
@@ -214,7 +216,6 @@ class Play:
             response = input("choose: ")
             if response == '1':
                 self.Songs.sort()
-                print('here')
                 self.battle()
             elif response == '2':
                 self.tournament()
