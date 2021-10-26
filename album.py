@@ -18,7 +18,7 @@ class Album:
             song.score == 1000
 
     def __str__(self) -> str:
-        """Return a string representation of this tree.
+        """Return a string representation of this album.
         """
         return (self.name + ": " + str(int(self.score)))
 

@@ -14,7 +14,7 @@ class Song:
         self.name = name
 
     def __str__(self) -> str:
-        """Return a string representation of this tree."""
+        """Return a string representation of this song."""
         return self.name + ": " + str(int(self.score[user]))
 
     def fight(self, other, vict: bool):

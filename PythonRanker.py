@@ -1,10 +1,10 @@
 import random
 import math
 import sys
-from scrape import scrape_data
 from song import Song
 from album import Album
 from artist import Artist
+import user_data
 
 user = 0
 match = 0
@@ -18,27 +18,20 @@ match = 0
     # self.Songs.append(Song(values[i].strip('\n'), float(values[i + 1]), int(values[i + 2])))
 
 class Play:
-    Artists: list[Artist]
-    Songs: list[Song]
-    Albums: list[Album]
+    artist: Artist
+    songs: list[Song]
+    albums: list[Album]
 
-    def __init__(self):
+    def __init__(self, a):
 
-        data = scrape_data(artist)
-
-        self.Songs = []
+        self.artist = a
+        self.songs = []
         self.albums = []
 
-        for pairing in data:
-            alb_songs = []
-            for song in pairing[0]:
-                alb_songs.append(Song(song))
-            self.albums.append(Album(pairing[1], alb_songs))
-
-        self.remove_albums()
-
-        for album in self.albums:
-            self.Songs.extend(album.Songs)
+        for album in self.artist.Albums:
+            for song in album.S1ongs:
+                self.songs.append(song)
+            self.albums.append(album)
 
         self.runsim()
 
@@ -206,6 +199,7 @@ class Play:
         file.close()
 
     def runsim(self):
+        choice = options(None, ["Play", "Different Artist", "Edit Artist", "Stats"])
         run = True
         while run:
             print('1. Battle Mode')
@@ -236,5 +230,44 @@ def showAlbumstats(Albums):
         print(str(x + 1) + ". " + str(Albums[x]))
 
 
-artist = input("choose an artist: ")
-play = Play()
+# artist = input("choose an artist: ")
+# play = Play()
+
+def main():
+    artists = user_data.return_artists()
+    artists.append((100, "Choose a new artist"))
+    choice = options("Welcome\nChoose An Artist!", artists)
+    Play(choice)
+
+def options(main_text, options):
+    dict_options = create_options(options)
+    return display_options(main_text, dict_options)
+
+def create_options(text):
+    text_dict = dict()
+    counter = 1
+    for i in text:
+        if not isinstance(i, tuple):
+            text_dict[counter] = i
+            counter += 1
+        else:
+            text_dict[i[0]] = i[1]
+    return text_dict
+
+def display_options(main_text, text):
+    if main_text is None:
+        main_text = "What would you like to do?"
+    print(main_text + "\n")
+    while(True):
+        # order = [int(x) for x in text].sort()
+        # print(order)
+        # for option in order:
+        for option in text:
+            print(str(option) + ": " + str(text[option]))
+        choice = input()
+        if choice.isnumeric() and int(choice) in text.keys():
+            return text[int(choice)]
+        print("\ninvalid choice")
+
+main()
+

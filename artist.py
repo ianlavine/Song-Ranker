@@ -2,7 +2,7 @@ from album import Album
 
 class Artist:
     name: str
-    Albums: Dict[Album: bool]
+    Albums: dict[Album: bool]
 
     def __init__(self, name, Albums):
         self.name = name
@@ -23,4 +23,9 @@ class Artist:
     def swap(self, album):
         if album in self.Albums:
             self.Album_dict[album] = not self.Album_dict[album]
+
+    def __str__(self) -> str:
+        """Return a string representation of this artist.
+        """
+        return (self.name)
 
