@@ -2,12 +2,13 @@ from album import Album
 
 class Artist:
     name: str
-    Albums: dict[Album: bool]
+    Album_dict: dict[Album: bool]
+    Albums: list[Album]
 
-    def __init__(self, name, Albums):
+    def __init__(self, name, albums):
         self.name = name
-        self.Albums = Albums
-        self.Album_dict = {x: True for x in Albums}
+        self.Albums = albums
+        self.Album_dict = {x: True for x in albums}
 
     def get_albums(self):
         return [x for x in self.Albums if self.Album_dict[x]]
