@@ -11,7 +11,7 @@ class Album:
         self.score = 0
 
     def recalc(self):
-        self.score = sum([x.score for x in self.Songs]) / len(self.Songs)
+        self.score = sum([x.score[0] for x in self.Songs]) / len(self.Songs)
 
     def reset(self):
         for song in self.Songs:

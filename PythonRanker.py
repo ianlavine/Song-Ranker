@@ -1,7 +1,5 @@
 import random
 import math
-import sys
-from scrape import scrape_data
 from song import Song
 from album import Album
 from artist import Artist
@@ -55,7 +53,6 @@ class Play:
                 break
             else:
                 self.artist.swap(self.Albums[removal - 1])
-        self.runsim()
 
 
     def coolmath(self):
@@ -78,21 +75,17 @@ class Play:
             return 8
 
 
-    def compare(self, winner, loser):
-        ratio = 50 + int(50 * (winner.score[user] - loser.score[user]) / max(winner.score[user], loser.score[user]))
-        print('expected at: ' + str(ratio))
-        win = winner.score[user]
-        lose = loser.score[user]
-
-        winner.score[user] += 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
-        loser.score[user] -= 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
-
-
     def showstats(self):
         self.Songs.sort()
         for x in range(len(self.Songs)):
             print(str(x + 1) + ". " + str(self.Songs[x]))
-        self.runsim()
+
+    def showAlbumstats(self):
+        for album in self.Albums:
+            album.recalc()
+        self.Albums.sort()
+        for x in range(len(self.Albums)):
+            print(str(x + 1) + ". " + str(self.Albums[x]))
 
 
     def battle(self):
@@ -119,39 +112,30 @@ class Play:
                 self.compare(Song2, Song1)
             elif response == 0:
                 leave = True
-                self.runsim()
 
-    def endsim(self):
-        file = open("Values.txt", "w")
-        for Song in self.Songs:
-            file.write('%s\n' % str(Song.name))
-            file.write('%s\n' % str(Song.score))
-            file.write('%s\n' % str(Song.matches))
-        file.close()
+    def compare(self, winner, loser):
+        ratio = 50 + int(50 * (winner.score[user] - loser.score[user]) / max(winner.score[user], loser.score[user]))
+        win = winner.score[user]
+        lose = loser.score[user]
+
+        winner.score[user] += 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
+        loser.score[user] -= 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
 
     def runsim(self):
-        response = options(None, ["Play", "Different Artist", "Edit Artist", "Stats"])
-        if response == 1:
-            self.Songs.sort()
-            self.battle()
-        elif response == 2:
-            main()
-        elif response == 3:
-            self.edit_albums()
-        elif response == 4:
-            self.showstats()
+        while True:
+            response = options(None, ["Play", "Different Artist", "Edit Artist", "Stats"])
+            if response == 1:
+                self.Songs.sort()
+                self.battle()
+            elif response == 2:
+                main()
+                break
+            elif response == 3:
+                self.edit_albums()
+            elif response == 4:
+                self.showstats()
+                self.showAlbumstats()
 
-
-def showAlbumstats(Albums):
-    for album in Albums:
-        album.recalc()
-    Albums.sort()
-    for x in range(len(Albums)):
-        print(str(x + 1) + ". " + str(Albums[x]))
-
-
-# artist = input("choose an artist: ")
-# play = Play()100
 
 artists = user_data.return_artists(None)
 
@@ -189,9 +173,6 @@ def display_options(main_text, text):
         main_text = "What would you like to do?"
     print(main_text + "\n")
     while(True):
-        # order = [int(x) for x in text].sort()
-        # print(order)
-        # for option in order:
         for option in text:
             print(str(option) + ": " + str(text[option]))
         choice = input()

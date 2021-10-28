@@ -6,7 +6,6 @@ import ssl
 from bs4 import BeautifulSoup as soup
 
 addons = ['musician', 'band', 'album']
-# artist = "car seat headrest"
 
 def scrape_data(artist):
 	addons.insert(2, rename(artist) + '_album')
@@ -69,7 +68,6 @@ def get_album_songs(page_html, album):
 
 	table = page_soup.find("table", class_="tracklist")
 	if table == None:
-		print("songs not found")
 		return None
 
 	rows = table.tbody.findAll('tr')
