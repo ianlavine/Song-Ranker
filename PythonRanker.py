@@ -29,7 +29,7 @@ class Play:
 
         self.instantiate_albums()
 
-        self.runsim()
+        # self.runsim()
 
     def instantiate_albums(self):
 
@@ -77,8 +77,13 @@ class Play:
 
     def showstats(self):
         self.Songs.sort()
-        for x in range(len(self.Songs)):
+        for x in range(10):
             print(str(x + 1) + ". " + str(self.Songs[x]))
+
+    def showSongStats(self):
+        self.Songs.sort()
+        topten = [self.Songs[x] for x in range(10)]
+        return topten
 
     def showAlbumstats(self):
         for album in self.Albums:
@@ -112,6 +117,19 @@ class Play:
                 self.compare(Song2, Song1)
             elif response == 0:
                 leave = True
+
+    def new_battle(self):
+        choice = random.randint(0, len(self.Songs) - 1)
+        updown = random.randint(0, 1)
+        if updown == 1:
+            offby = abs(choice - self.coolmath())
+        else:
+            offby = choice + self.coolmath()
+            if offby > len(self.Songs) - 1:
+                offby = offby - (offby - (len(self.Songs) - 1))
+        Song1 = self.Songs[choice]
+        Song2 = self.Songs[offby]
+        return [Song1, Song2]
 
     def compare(self, winner, loser):
         ratio = 50 + int(50 * (winner.score[user] - loser.score[user]) / max(winner.score[user], loser.score[user]))

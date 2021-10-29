@@ -7,14 +7,20 @@
 	<body>
 		<h1>Song Ranker</h1>
         <h2>Artists</h2>
-        <form action="" method="get">
+        <!-- <form action="" method="get">
             {% for art in artist_data %}
                 <label for=chosen_artist>{{ art.name }}</label><br>
             {% endfor %}
-                <!-- <input type="radio" name="chosen_artist"> -->
                 <input type="text" name="chosen_artist" >
                <input type="submit" name="chosen_artist">
-        </form>
+        </form> -->
+        <form action="" method="get">
+            {% for art in artist_data %}
+                <input type="radio" id="html" name="chosen_artist" value={{ art.val }}>
+                <label for="html">{{ art.name }}</label><br>
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form> 
         <h2>Albums</h2>
         <ul>
             {% for alb in album_data %}
@@ -22,8 +28,18 @@
             {% endfor %}
         </ul>
         <h2>Rankings</h2>
+        <ol>
+            {% for top in topten %}
+                <li>{{ top.name }}</li>
+            {% endfor %}
+        </ol>
         <h2>Chooose</h2>
-        <button type="button">Song1</button>
-        <button type="button">Song2</button>
+        <form action="" method="get">
+            {% for song in song_data %}
+                    <input type="radio" id="html" name="chosen_song" value={{ song.val }}>
+                    <label for="html">{{ song.name }}</label><br>
+            {% endfor %}
+            <input type="submit" value="Submit">
+        </form> 
 	</body>
 </html>
