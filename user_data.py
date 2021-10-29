@@ -3,7 +3,7 @@ from artist import Artist
 from album import Album
 from song import Song
 
-names = ["Flume"]
+names = ["Flume", "Car Seat Headrest"]
 
 def return_artists(art):
     if art == None:

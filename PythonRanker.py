@@ -136,49 +136,49 @@ class Play:
                 self.showstats()
                 self.showAlbumstats()
 
+# artists = user_data.return_artists(None)
 
-artists = user_data.return_artists(None)
+# def main():
+#     opt = [a for a in artists]
+#     opt.append((100, "Choose a new artist"))
+#     opt.append((0, "Quit"))
+#     choice = options("Welcome\nChoose An Artist!", opt)
+#     if choice == 100:
+#         art = input("Who: ")
+#         artists.extend(user_data.return_artists([art]))
+#         main()
+#     elif choice == 0:
+#         pass
+#     else:
+#         Play(artists[choice - 1])
+#     return choice
 
-def main():
-    opt = [a for a in artists]
-    opt.append((100, "Choose a new artist"))
-    opt.append((0, "Quit"))
-    choice = options("Welcome\nChoose An Artist!", opt)
-    if choice == 100:
-        art = input("Who: ")
-        artists.extend(user_data.return_artists([art]))
-        main()
-    elif choice == 0:
-        pass
-    else:
-        Play(artists[choice - 1])
+# def options(main_text, options):
+#     dict_options = create_options(options)
+#     return display_options(main_text, dict_options)
 
-def options(main_text, options):
-    dict_options = create_options(options)
-    return display_options(main_text, dict_options)
+# def create_options(text):
+#     text_dict = dict()
+#     counter = 1
+#     for i in text:
+#         if not isinstance(i, tuple):
+#             text_dict[counter] = i
+#             counter += 1
+#         else:
+#             text_dict[i[0]] = i[1]
+#     return text_dict
 
-def create_options(text):
-    text_dict = dict()
-    counter = 1
-    for i in text:
-        if not isinstance(i, tuple):
-            text_dict[counter] = i
-            counter += 1
-        else:
-            text_dict[i[0]] = i[1]
-    return text_dict
+# def display_options(main_text, text):
+#     if main_text is None:
+#         main_text = "What would you like to do?"
+#     print(main_text + "\n")
+#     while(True):
+#         for option in text:
+#             print(str(option) + ": " + str(text[option]))
+#         choice = input()
+#         if choice.isnumeric() and int(choice) in text.keys():
+#             return int(choice)
+#         print("\ninvalid choice")
 
-def display_options(main_text, text):
-    if main_text is None:
-        main_text = "What would you like to do?"
-    print(main_text + "\n")
-    while(True):
-        for option in text:
-            print(str(option) + ": " + str(text[option]))
-        choice = input()
-        if choice.isnumeric() and int(choice) in text.keys():
-            return int(choice)
-        print("\ninvalid choice")
-
-main()
+# main()
 

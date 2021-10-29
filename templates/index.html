@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Song Ranker</title>
+        <meta charset="utf-8"/>
+	</head>
+	<body>
+		<h1>Song Ranker</h1>
+        <h2>Artists</h2>
+        <form action="" method="get">
+            {% for art in artist_data %}
+                <label for=chosen_artist>{{ art.name }}</label><br>
+            {% endfor %}
+                <!-- <input type="radio" name="chosen_artist"> -->
+                <input type="text" name="chosen_artist" >
+               <input type="submit" name="chosen_artist">
+        </form>
+        <h2>Albums</h2>
+        <ul>
+            {% for alb in album_data %}
+                <li>{{ alb.name }}: {{alb.on}}</li>
+            {% endfor %}
+        </ul>
+        <h2>Rankings</h2>
+        <h2>Chooose</h2>
+        <button type="button">Song1</button>
+        <button type="button">Song2</button>
+	</body>
+</html>
