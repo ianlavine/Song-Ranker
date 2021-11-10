@@ -9,7 +9,8 @@
     <body>
         <div>
             Song Ranker:
-            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}">Play</a>
+            <a href="{{ url_for('ranks') }}">Rankings</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}

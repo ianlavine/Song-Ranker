@@ -54,13 +54,31 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+@app.route("/ranks", methods=['GET', 'POST'])
+@login_required
+def ranks():
+
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    artistform = update_artist_form(user)
+
+    topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
+
+    if artistform.select_artist.data != None:
+        update_data(artistform)
+        song_data.sort()
+        topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
+
+    return render_template('ranks.html', artistform=artistform, topten=topten)
+
+
 @app.route("/index", methods=['GET', 'POST'])
 @login_required
 def index():
 
-    global game, game_songs, album_data, topten, song_data
+    global game_songs, album_data, song_data
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
+    artistform = update_artist_form(user)
 
     newform = newArtistForm()
     if newform.validate_on_submit():
@@ -77,21 +95,8 @@ def index():
                 db.session.add(song)
         db.session.commit()
         
-
-        # artists.extend(user_data.return_artists([newform.new_artist.data]))
-
-    artistform = selectArtistForm()
-    # artistform.select_artist.choices = [(str(x), artists[x].name) for x in range(len(artists))]
-    artistform.select_artist.choices = [(x.id, x.name) for x in user.artists.all()]
-
     if artistform.select_artist.data != None:
-        # artist = artists[int(artistform.select_artist.data)]
-        artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
-
-        album_data = [alb for alb in artist.albums.all()]
-
-        song_data = [song for alb in album_data for song in alb.songs.all()]
-
+        update_data(artistform)
         game_songs = Ranking.new_battle(song_data)
 
     song1 = request.args.get("song1", "")
@@ -107,8 +112,19 @@ def index():
         db.session.commit()
 
         game_songs = Ranking.new_battle(song_data)
-    
-        song_data.sort()
-        topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
 
-    return render_template('index.html', album_data=album_data, songa=game_songs[0], songo=game_songs[1], topten=topten, newform=newform, artistform=artistform)
+    return render_template('index.html', album_data=album_data, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform)
+
+
+def update_data(form):
+
+    global album_data, song_data
+
+    artist = Artist.query.filter_by(id=form.select_artist.data).first_or_404()
+    album_data = [alb for alb in artist.albums.all()]
+    song_data = [song for alb in album_data for song in alb.songs.all()]
+
+def update_artist_form(user):
+    form = selectArtistForm()
+    form.select_artist.choices = [(x.id, x.name) for x in user.artists.all()]
+    return form

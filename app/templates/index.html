@@ -1,18 +1,6 @@
-{% extends "base.html" %}
+{% extends "choice.html" %}
 
-    {% block content %}
-        <h1>Hi, {{ current_user.username }}!</h1>
-		<h1>Song Ranker</h1>
-        <h2>Artists</h2>
-        <form action="" method="post" novalidate>
-            {% for subfield in artistform.select_artist %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-            {% endfor %}
-            <p>{{ artistform.submit() }}</p>
-        </form>
+    {% block content2 %}
         <form action="" method="post" novalidate>
             {{ newform.hidden_tag() }}
             <p>
@@ -40,10 +28,4 @@
                 <label for="htmlo">{{ songo.name }}</label>
             </form> 
         </ul>
-        <h2>Rankings</h2>
-        <ol>
-            {% for top in topten %}
-                <li>{{ top.name }}: {{ top.score }}</li>
-            {% endfor %}
-        </ol>
     {% endblock %}

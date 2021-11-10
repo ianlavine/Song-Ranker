@@ -1,0 +1,9 @@
+{% extends "choice.html" %}
+    {% block content2 %}
+    <h2>Rankings</h2>
+    <ol>
+        {% for top in topten %}
+            <li>{{ top.name }}: {{ top.score }}</li>
+        {% endfor %}
+    </ol>
+    {% endblock %}
