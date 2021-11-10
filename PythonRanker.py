@@ -4,9 +4,6 @@ from song import Song
 from album import Album
 from artist import Artist
 
-user = 0
-match = 0
-
 # file = open("Values.txt", "r")
 # values = file.readlines()
 # file.close()
@@ -42,16 +39,16 @@ class Play:
                 self.Albums.append(album)
 
 
-    # def edit_albums(self):
-    #     while True:
-    #         albs = [str(x.name) + ": " +  str(self.artist.Album_dict[x]) for x in self.artist.Albums]
-    #         albs.append((100, "Done"))
-    #         removal = options("Which albums would you like/not like to include: ", albs)
-    #         if removal == 100:
-    #             self.instantiate_albums()
-    #             break
-    #         else:
-    #             self.artist.swap(self.Albums[removal - 1])
+    def edit_albums(self):
+        while True:
+            albs = [str(x.name) + ": " +  str(self.artist.Album_dict[x]) for x in self.artist.Albums]
+            albs.append((100, "Done"))
+            removal = options("Which albums would you like/not like to include: ", albs)
+            if removal == 100:
+                self.instantiate_albums()
+                break
+            else:
+                self.artist.swap(self.Albums[removal - 1])
 
 
     def coolmath(self):
@@ -92,30 +89,30 @@ class Play:
             print(str(x + 1) + ". " + str(self.Albums[x]))
 
 
-    # def battle(self):
+    def battle(self):
 
-    #     global match
-    #     leave = False
-    #     while not leave:
-    #         choice = random.randint(0, len(self.Songs) - 1)
-    #         updown = random.randint(0, 1)
-    #         if updown == 1:
-    #             offby = abs(choice - self.coolmath())
-    #         else:
-    #             offby = choice + self.coolmath()
-    #             if offby > len(self.Songs) - 1:
-    #                 offby = offby - (offby - (len(self.Songs) - 1))
-    #         Song1 = self.Songs[choice]
-    #         Song2 = self.Songs[offby]
+        global match
+        leave = False
+        while not leave:
+            choice = random.randint(0, len(self.Songs) - 1)
+            updown = random.randint(0, 1)
+            if updown == 1:
+                offby = abs(choice - self.coolmath())
+            else:
+                offby = choice + self.coolmath()
+                if offby > len(self.Songs) - 1:
+                    offby = offby - (offby - (len(self.Songs) - 1))
+            Song1 = self.Songs[choice]
+            Song2 = self.Songs[offby]
 
-    #         match += 1
-    #         response = options('\n' + str(match), (Song1.name, Song2.name, (0, "Quit")))
-    #         if response == 1:
-    #             self.compare(Song1, Song2)
-    #         elif response == 2:
-    #             self.compare(Song2, Song1)
-    #         elif response == 0:
-    #             leave = True
+            match += 1
+            response = options('\n' + str(match), (Song1.name, Song2.name, (0, "Quit")))
+            if response == 1:
+                self.compare(Song1, Song2)
+            elif response == 2:
+                self.compare(Song2, Song1)
+            elif response == 0:
+                leave = True
 
     def new_battle(self):
         choice = random.randint(0, len(self.Songs) - 1)
@@ -131,71 +128,71 @@ class Play:
         return [Song1, Song2]
 
     def compare(self, winner, loser):
-        ratio = 50 + int(50 * (winner.score[user] - loser.score[user]) / max(winner.score[user], loser.score[user]))
-        win = winner.score[user]
-        lose = loser.score[user]
+        ratio = 50 + int(50 * (winner.score  - loser.score) / max(winner.score, loser.score))
+        win = winner.score
+        lose = loser.score
 
-        winner.score[user] += 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
-        loser.score[user] -= 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
+        winner.score += 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
+        loser.score -= 250 * (1.0 / (1.0 + (math.pow(10, (win - lose) / 400))))
 
-    # def runsim(self):
-    #     while True:
-    #         response = options(None, ["Play", "Different Artist", "Edit Artist", "Stats"])
-    #         if response == 1:
-    #             self.Songs.sort()
-    #             self.battle()
-    #         elif response == 2:
-    #             main()
-    #             break
-    #         elif response == 3:
-    #             self.edit_albums()
-    #         elif response == 4:
-    #             self.showstats()
-    #             self.showAlbumstats()
+    def runsim(self):
+        while True:
+            response = options(None, ["Play", "Different Artist", "Edit Artist", "Stats"])
+            if response == 1:
+                self.Songs.sort()
+                self.battle()
+            elif response == 2:
+                main()
+                break
+            elif response == 3:
+                self.edit_albums()
+            elif response == 4:
+                self.showstats()
+                self.showAlbumstats()
 
-# artists = user_data.return_artists(None)
+artists = user_data.return_artists(None)
 
-# def main():
-#     opt = [a for a in artists]
-#     opt.append((100, "Choose a new artist"))
-#     opt.append((0, "Quit"))
-#     choice = options("Welcome\nChoose An Artist!", opt)
-#     if choice == 100:
-#         art = input("Who: ")
-#         artists.extend(user_data.return_artists([art]))
-#         main()
-#     elif choice == 0:
-#         pass
-#     else:
-#         Play(artists[choice - 1])
-#     return choice
+def main():
+    opt = [a for a in artists]
+    opt.append((100, "Choose a new artist"))
+    opt.append((0, "Quit"))
+    choice = options("Welcome\nChoose An Artist!", opt)
+    if choice == 100:
+        art = input("Who: ")
+        artists.extend(user_data.return_artists([art]))
+        main()
+    elif choice == 0:
+        pass
+    else:
+        Play(artists[choice - 1])
+    return choice
 
-# def options(main_text, options):
-#     dict_options = create_options(options)
-#     return display_options(main_text, dict_options)
+def options(main_text, options):
+    dict_options = create_options(options)
+    return display_options(main_text, dict_options)
 
-# def create_options(text):
-#     text_dict = dict()
-#     counter = 1
-#     for i in text:
-#         if not isinstance(i, tuple):
-#             text_dict[counter] = i
-#             counter += 1
-#         else:
-#             text_dict[i[0]] = i[1]
-#     return text_dict
+def create_options(text):
+    text_dict = dict()
+    counter = 1
+    for i in text:
+        if not isinstance(i, tuple):
+            text_dict[counter] = i
+            counter += 1
+        else:
+            text_dict[i[0]] = i[1]
+    return text_dict
 
-# def display_options(main_text, text):
-#     if main_text is None:
-#         main_text = "What would you like to do?"
-#     print(main_text + "\n")
-#     while(True):
-#         for option in text:
-#             print(str(option) + ": " + str(text[option]))
-#         choice = input()
-#         if choice.isnumeric() and int(choice) in text.keys():
-#             return int(choice)
-#         print("\ninvalid choice")
+def display_options(main_text, text):
+    if main_text is None:
+        main_text = "What would you like to do?"
+    print(main_text + "\n")
+    while(True):
+        for option in text:
+            print(str(option) + ": " + str(text[option]))
+        choice = input()
+        if choice.isnumeric() and int(choice) in text.keys():
+            return int(choice)
+        print("\ninvalid choice")
 
-# main()
+main()
 
