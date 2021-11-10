@@ -20,11 +20,6 @@ def coolmath():
     else:  # 6
         return 8
 
-def showSongStats(Songs):
-    Songs.sort()
-    topten = [Songs[x] for x in range(len(Songs))]
-    return topten
-
 def new_battle(Songs):
     choice = random.randint(0, len(Songs) - 1)
     updown = random.randint(0, 1)
