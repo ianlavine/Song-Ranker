@@ -10,7 +10,7 @@ import user_data
 
 # artists = user_data.return_artists(None)
 # db.session.expire_on_commit = False
-artist = None
+artist = []
 
 game = None 
 game_songs = [None, None]
@@ -60,8 +60,6 @@ def register():
 @login_required
 def ranks():
 
-    global artist
-
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
 
@@ -83,7 +81,7 @@ def ranks():
         album_data.sort()
         topalb = [{'name': x.name, 'score': int(x.score)} for x in album_data]
 
-    return render_template('ranks.html', artistform=artistform, topten=topten, topalb=topalb, art=artist)
+    return render_template('ranks.html', artistform=artistform, topten=topten, topalb=topalb)
 
 
 @app.route("/index", methods=['GET', 'POST'])
@@ -125,11 +123,11 @@ def index():
         if song2:
             Ranking.compare(game_songs[1], game_songs[0])
         
-        user.rounds += 1
-        artist.rounds += 1
+        # user.rounds += 1
+        # artist.rounds += 1
 
-        db.session.add(user)
-        db.session.add(artist)
+        # db.session.add(user)
+        # db.session.add(artist)
         db.session.add(game_songs[0])
         db.session.add(game_songs[1])
         db.session.commit()
@@ -139,7 +137,7 @@ def index():
 
         game_songs = Ranking.new_battle(song_data)
 
-    return render_template('index.html', album_data=album_data, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform, topten=topten, art=artist)
+    return render_template('index.html', album_data=album_data, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform, topten=topten)
 
 
 def update_data(form):

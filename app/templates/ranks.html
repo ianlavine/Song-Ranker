@@ -1,8 +1,15 @@
 {% extends "choice.html" %}
     {% block content2 %}
-    <h2>Rankings</h2>
+    <h1>Rankings</h1>
+    <h2>Songs</h2>
     <ol>
         {% for top in topten %}
+            <li>{{ top.name }}: {{ top.score }}</li>
+        {% endfor %}
+    </ol>
+    <h2>Albums</h2>
+    <ol>
+        {% for top in topalb %}
             <li>{{ top.name }}: {{ top.score }}</li>
         {% endfor %}
     </ol>
