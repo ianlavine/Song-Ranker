@@ -8,9 +8,21 @@
         {% endfor %}
     </ol>
     <h2>Albums</h2>
-    <ol>
-        {% for top in topalb %}
-            <li>{{ top.name }}: {{ top.score }}</li>
+    <form action="" method="post" novalidate>
+        {% for subfield in swapform.remove %}
+            <tr>
+                <td>{{ subfield }}</td>
+                <td>{{ subfield.label }}</td><br>
+            </tr>
         {% endfor %}
-    </ol>
+        <p>{{ swapform.submit() }}</p>
+    </form>
+    {% if to_show.name != None %}
+        <h3>{{ to_show.name }}</h3>
+        <ol>
+            {% for son in ordered %}
+                <li>{{ son.name }}: {{ son.score }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
     {% endblock %}

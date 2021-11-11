@@ -2,7 +2,7 @@ from app import app, db
 from app.forms import RegistrationForm
 from flask import request, render_template, url_for, redirect
 import Ranking
-from app.forms import newArtistForm, selectArtistForm, LoginForm
+from app.forms import newArtistForm, selectArtistForm, LoginForm, swapAlbumForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Artist, Album, Song
 from werkzeug.urls import url_parse
@@ -16,9 +16,12 @@ game = None
 game_songs = [None, None]
 song_data = []
 album_data = [] 
+album_data_off = []
 topten = []
 topalb = []
 user = None
+ordered = []
+to_show = None
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -60,13 +63,19 @@ def register():
 @login_required
 def ranks():
 
-    global artist
+    global artist, ordered, to_show
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
+    swapform = update_swap_form(True)
+
+    if swapform.remove.data != None:
+        to_show = Album.query.filter_by(id=swapform.remove.data).first_or_404()
+        temp = [x for x in to_show.songs.all()]
+        temp.sort()
+        ordered = [{'name': x.name, 'score': int(x.score)} for x in temp]
 
     topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
-    topalb = [{'name': x.name, 'score': int(x.score)} for x in album_data]
 
     if artistform.select_artist.data != None:
 
@@ -80,10 +89,7 @@ def ranks():
             db.session.add(alb)
         db.session.commit()
 
-        album_data.sort()
-        topalb = [{'name': x.name, 'score': int(x.score)} for x in album_data]
-
-    return render_template('ranks.html', artistform=artistform, topten=topten, topalb=topalb, art=artist)
+    return render_template('ranks.html', artistform=artistform, topten=topten, art=artist, swapform=swapform, ordered=ordered, to_show=to_show)
 
 
 @app.route("/index", methods=['GET', 'POST'])
@@ -91,7 +97,7 @@ def ranks():
 def index():
 
 
-    global game_songs, album_data, song_data, artist, topten
+    global game_songs, album_data, album_data_off, song_data, artist, topten
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
@@ -116,6 +122,19 @@ def index():
         update_data(artistform)
         game_songs = Ranking.new_battle(song_data)
 
+    swapform = update_swap_form()
+    if swapform.remove.data != None or swapform.include.data != None:
+        if swapform.remove.data != None:
+            to_change = Album.query.filter_by(id=swapform.remove.data).first_or_404()
+        else:
+             to_change = Album.query.filter_by(id=swapform.include.data).first_or_404()
+        to_change.swap()
+        db.session.add(artist)
+        db.session.add(to_change)
+        db.session.commit()
+        update_albums()
+        swapform = update_swap_form()
+        game_songs = Ranking.new_battle(song_data)
 
     song1 = request.args.get("song1", "")
     song2 = request.args.get("song2", "")
@@ -139,16 +158,40 @@ def index():
 
         game_songs = Ranking.new_battle(song_data)
 
-    return render_template('index.html', album_data=album_data, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform, topten=topten, art=artist)
+    return render_template('index.html', swapform=swapform, album_data=album_data, album_data_off=album_data_off, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform, topten=topten, art=artist)
 
 
 def update_data(form):
 
-    global artist, album_data, song_data
+    global artist, album_data, album_data_off, song_data
 
     artist = Artist.query.filter_by(id=form.select_artist.data).first_or_404()
-    album_data = [alb for alb in artist.albums.all()]
+    update_albums()
+    
+
+def update_albums():
+
+    global artist, album_data, album_data_off, song_data
+
+    album_data = [alb for alb in artist.albums.all() if alb.in_use]
+    album_data_off = [alb for alb in artist.albums.all() if not alb.in_use]
     song_data = [song for alb in album_data for song in alb.songs.all()]
+
+
+def update_swap_form(order = False):
+
+    global artist, album_data, album_data_off, song_data
+
+    swapform = swapAlbumForm()
+    if order:
+        sorted_album = sorted(album_data)
+        swapform.remove.choices = [(x.id, str(x.name + ": " + str(int(x.score)))) for x in sorted_album]
+    else:
+        swapform.remove.choices = [(x.id, x.name) for x in album_data]
+    swapform.include.choices = [(x.id, x.name) for x in album_data_off]
+
+    return swapform
+
 
 def update_artist_form(user):
     form = selectArtistForm()

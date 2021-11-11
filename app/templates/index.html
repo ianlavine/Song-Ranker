@@ -9,12 +9,6 @@
             </p>
             <p>{{ newform.submit() }}</p>
         </form>
-        <h2>Albums</h2>
-        <ul>
-            {% for alb in album_data %}
-                <li>{{ alb.name }}</li>
-            {% endfor %}
-        </ul>
         <h2>Chooose</h2>
         <ul>
             <form action="" method="get">
@@ -28,4 +22,22 @@
                 <label for="htmlo">{{ songo.name }}</label>
             </form> 
         </ul>
+        <h2>Albums</h2>
+        <form action="" method="post" novalidate>
+            <h3>{{ swapform.remove.label }}</h3>
+            {% for subfield in swapform.remove %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td><br>
+                </tr>
+            {% endfor %}
+            <h3>{{ swapform.include.label }}</h3>
+            {% for subfield in swapform.include %}
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td><br>
+                </tr>
+            {% endfor %}
+            <p>{{ swapform.submit() }}</p>
+        </form>
     {% endblock %}

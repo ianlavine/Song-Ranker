@@ -43,6 +43,9 @@ class Album(db.Model):
     def __lt__(self, other):
         return self.score > other.score
 
+    def swap(self):
+        self.in_use = not self.in_use
+
 class Song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
