@@ -8,15 +8,12 @@
         {% endfor %}
     </ol>
     <h2>Albums</h2>
-    <form action="" method="post" novalidate>
-        {% for subfield in swapform.remove %}
-            <tr>
-                <td>{{ subfield }}</td>
-                <td>{{ subfield.label }}</td><br>
-            </tr>
-        {% endfor %}
-        <p>{{ swapform.submit() }}</p>
-    </form>
+    <form action="" method="get">
+            {% for x in sort_albs %}
+                <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+                <label>{{ x.name }}: {{ x.score }}</label>
+            {% endfor %}
+        </form> 
     {% if to_show.name != None %}
         <h3>{{ to_show.name }}</h3>
         <ol>

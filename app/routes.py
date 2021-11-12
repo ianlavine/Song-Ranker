@@ -8,11 +8,8 @@ from app.models import User, Artist, Album, Song
 from werkzeug.urls import url_parse
 import user_data
 
-# artists = user_data.return_artists(None)
-# db.session.expire_on_commit = False
 artist = None
 
-game = None 
 game_songs = [None, None]
 song_data = []
 album_data = [] 
@@ -22,6 +19,7 @@ topalb = []
 user = None
 ordered = []
 to_show = None
+sort_albs = []
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
@@ -33,7 +31,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
+        login_user(user)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
@@ -63,17 +61,10 @@ def register():
 @login_required
 def ranks():
 
-    global artist, ordered, to_show
+    global ordered, to_show, sort_albs
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
-    swapform = update_swap_form(True)
-
-    if swapform.remove.data != None:
-        to_show = Album.query.filter_by(id=swapform.remove.data).first_or_404()
-        temp = [x for x in to_show.songs.all()]
-        temp.sort()
-        ordered = [{'name': x.name, 'score': int(x.score)} for x in temp]
 
     topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
 
@@ -87,17 +78,29 @@ def ranks():
         for alb in album_data:
             alb.score = sum([s.score for s in alb.songs.all()]) / len(alb.songs.all())
             db.session.add(alb)
+            db.session.add(artist)
         db.session.commit()
 
-    return render_template('ranks.html', artistform=artistform, topten=topten, art=artist, swapform=swapform, ordered=ordered, to_show=to_show)
+        sort_albs = sorted(album_data)
+
+    alber = request.args.get("alber", "")
+    if alber:
+        to_show = sort_albs[int(alber)]
+        db.session.add(to_show)
+        db.session.commit()
+        temp = [x for x in to_show.songs.all()]
+        temp.sort()
+        ordered = [{'name': x.name, 'score': int(x.score)} for x in temp]
+
+
+    return render_template('ranks.html', artistform=artistform, sort_albs=sort_albs, topten=topten, art=artist, ordered=ordered, to_show=to_show)
 
 
 @app.route("/index", methods=['GET', 'POST'])
 @login_required
 def index():
 
-
-    global game_songs, album_data, album_data_off, song_data, artist, topten
+    global game_songs, album_data, album_data_off, song_data, topten, artist
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
@@ -119,29 +122,29 @@ def index():
         artistform = update_artist_form(user)
         
     if artistform.select_artist.data != None:
+        artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
         update_data(artistform)
         game_songs = Ranking.new_battle(song_data)
 
-    swapform = update_swap_form()
-    if swapform.remove.data != None or swapform.include.data != None:
-        if swapform.remove.data != None:
-            to_change = Album.query.filter_by(id=swapform.remove.data).first_or_404()
+    alber = request.args.get("alber", "")
+    alber2 = request.args.get("alber2", "")
+    if alber or alber2:
+        if alber:
+            to_change = album_data[int(alber)]
         else:
-             to_change = Album.query.filter_by(id=swapform.include.data).first_or_404()
+            to_change = album_data_off[int(alber2)]
         to_change.swap()
         db.session.add(artist)
         db.session.add(to_change)
         db.session.commit()
         update_albums()
-        swapform = update_swap_form()
         game_songs = Ranking.new_battle(song_data)
 
-    song1 = request.args.get("song1", "")
-    song2 = request.args.get("song2", "")
-    if song1 or song2:
-        if song1:
+    sonny = request.args.get("songer", "")
+    if sonny:
+        if int(sonny) == 0:
             Ranking.compare(game_songs[0], game_songs[1])
-        if song2:
+        if int(sonny) == 1:
             Ranking.compare(game_songs[1], game_songs[0])
         
         user.rounds += 1
@@ -158,7 +161,7 @@ def index():
 
         game_songs = Ranking.new_battle(song_data)
 
-    return render_template('index.html', swapform=swapform, album_data=album_data, album_data_off=album_data_off, songa=game_songs[0], songo=game_songs[1], newform=newform, artistform=artistform, topten=topten, art=artist)
+    return render_template('index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, newform=newform, artistform=artistform, topten=topten, art=artist)
 
 
 def update_data(form):
@@ -176,21 +179,6 @@ def update_albums():
     album_data = [alb for alb in artist.albums.all() if alb.in_use]
     album_data_off = [alb for alb in artist.albums.all() if not alb.in_use]
     song_data = [song for alb in album_data for song in alb.songs.all()]
-
-
-def update_swap_form(order = False):
-
-    global artist, album_data, album_data_off, song_data
-
-    swapform = swapAlbumForm()
-    if order:
-        sorted_album = sorted(album_data)
-        swapform.remove.choices = [(x.id, str(x.name + ": " + str(int(x.score)))) for x in sorted_album]
-    else:
-        swapform.remove.choices = [(x.id, x.name) for x in album_data]
-    swapform.include.choices = [(x.id, x.name) for x in album_data_off]
-
-    return swapform
 
 
 def update_artist_form(user):

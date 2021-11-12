@@ -12,32 +12,25 @@
         <h2>Chooose</h2>
         <ul>
             <form action="" method="get">
-                <input type="hidden" id="htmlo" name="song1" value=0>
-                <input type="submit" value="Submit">
-                <label for="htmlo">{{ songa.name }}</label>
-            </form> 
-            <form action="" method="get">
-                <input type="hidden" id="htmlo" name="song2" value=1>
-                <input type="submit" value="Submit">
-                <label for="htmlo">{{ songo.name }}</label>
+                {% for x in game_songs %}
+                    <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
+                    <label>{{ x.name }}</label>
+                {% endfor %}
             </form> 
         </ul>
         <h2>Albums</h2>
-        <form action="" method="post" novalidate>
-            <h3>{{ swapform.remove.label }}</h3>
-            {% for subfield in swapform.remove %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td><br>
-                </tr>
+        <h3>In Rotation</h3>
+        <form action="" method="get">
+            {% for x in album_data %}
+                <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+                <label>{{ x.name }}</label>
             {% endfor %}
-            <h3>{{ swapform.include.label }}</h3>
-            {% for subfield in swapform.include %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td><br>
-                </tr>
+        </form> 
+        <h3>Excluded</h3>
+        <form action="" method="get">
+            {% for x in album_data_off %}
+                <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
+                <label>{{ x.name }}</label>
             {% endfor %}
-            <p>{{ swapform.submit() }}</p>
-        </form>
+        </form> 
     {% endblock %}
