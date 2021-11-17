@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
         {% if title %}
         <title>{{ title }} - Music Ranker</title>
         {% else %}
@@ -8,18 +8,26 @@
         {% endif %}
     </head>
     <body>
-        <div>
-            Song Ranker:
-            <a href="{{ url_for('index') }}">Play</a>
+        <section class="topnav">
+            <div class="title">
+                <h1>Song Ranker</h1>
+            </div>
+            <div class="info">
+                <ul style="list-style-type: none;">
+                    <li>{{ current_user.username }}</li>
+                    <li>Artists: {{ artistform.length }}</li>
+                    <li>Rounds Played: {{ current_user.rounds }}</li>
+                </ul>
+            </div>
+            <!-- <a href="{{ url_for('index') }}">Play</a>
             <a href="{{ url_for('ranks') }}">Rankings</a>
             {% if current_user.is_anonymous %}
             <a href="{{ url_for('login') }}">Login</a>
             {% else %}
             <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
+            {% endif %} -->
+        </section>
+        <!-- {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
             {% for message in messages %}
@@ -27,55 +35,59 @@
             {% endfor %}
         </ul>
         {% endif %}
-        {% endwith %}
-        <h1>Hi, {{ current_user.username }}! You played {{ current_user.rounds }} rounds!</h1>
-        <h1>Song Ranker</h1>
-        <h2>Artists</h2>
+        {% endwith %} -->
         <div class="sidenav">
+            <h2>Artists</h2>
             <form action="" method="post" novalidate>
                 {% for subfield in artistform.select_artist %}
-                    <ul>
-                        <li>{{ subfield }}</li>
-                        <li>{{ subfield.label }}</li>
-                    </ul>
+                    <td>
+                        <tr>{{ subfield }}</tr>
+                        <tr>{{ subfield.label }}</tr><br>
+                    </td>
                 {% endfor %}
                 <p>{{ artistform.submit() }}</p>
             </form>
+            <form action="" method="post" novalidate>
+                {{ newform.hidden_tag() }}
+                <p>
+                    {{ newform.new_artist.label }}<br>
+                    {{ newform.new_artist(size=32) }}
+                </p>
+                <p>{{ newform.submit() }}</p>
+            </form>
         </div>
-        {% if art != None %}
-            <h3>{{ art.name }}: {{ art.rounds }}</h3>
-        {% endif %}
-        <form action="" method="post" novalidate>
-            {{ newform.hidden_tag() }}
-            <p>
-                {{ newform.new_artist.label }}<br>
-                {{ newform.new_artist(size=32) }}
-            </p>
-            <p>{{ newform.submit() }}</p>
-        </form>
-        <h2>Chooose</h2>
-        <ul>
+        <div class="centrenav">
+            {% if art != None %}
+                <h3>{{ art.name }}: {{ art.rounds }}</h3>
+            {% endif %}
+            <h2>Chooose</h2>
+            <ul>
+                <form action="" method="get">
+                    {% for x in game_songs %}
+                        <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
+                        <label>{{ x.name }}</label>
+                    {% endfor %}
+                </form> 
+            </ul>
+            <h2>Albums</h2>
+            <h3>In Rotation: {{ album_data|length }}</h3>
             <form action="" method="get">
-                {% for x in game_songs %}
-                    <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
+                {% for x in album_data %}
+                    <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
                     <label>{{ x.name }}</label>
                 {% endfor %}
             </form> 
-        </ul>
-        <h2>Albums</h2>
-        <h3>In Rotation</h3>
-        <form action="" method="get">
-            {% for x in album_data %}
-                <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                <label>{{ x.name }}</label>
-            {% endfor %}
-        </form> 
-        <h3>Excluded</h3>
-        <form action="" method="get">
-            {% for x in album_data_off %}
-                <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
-                <label>{{ x.name }}</label>
-            {% endfor %}
-        </form>
+            <h3>Excluded: {{ album_data_off|length }}</h3>
+            <form action="" method="get">
+                {% for x in album_data_off %}
+                    <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
+                    <label>{{ x.name }}</label>
+                {% endfor %}
+            </form>
+            <a href="{{ url_for('ranks') }}">See Rankings</a>
+        </div>
     </body>
+    <div class="bottomnav">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
 </html>

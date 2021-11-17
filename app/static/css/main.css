@@ -1,15 +1,50 @@
 .sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 160px; /* Set the width of the sidebar */
+    height: 92%; /* Full-height: remove this if you want "auto" height */
+    width: 12%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color:chartreuse; /* Black */
+    background-color:skyblue; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
   }
 
-  h2 {
-    color: blue;
-  }
+.topnav {
+    display: flex;
+    height: 15%; /* Full-height: remove this if you want "auto" height */
+    width: 88%; /* Set the width of the sidebar */
+    top: 0;
+    right: 0;
+    background-color: lightcoral; /* Black */
+    overflow: hidden;
+    position: fixed;
+    justify-content: space-between;
+}
+
+.title {
+    justify-content: center;
+}
+
+.info {
+    text-align: left;
+}
+
+.bottomnav {
+    height: 8%; /* Full-height: remove this if you want "auto" height */
+    width: 100%; /* Set the width of the sidebar */
+    bottom: 0;
+    left: 0;
+    background-color:lightcoral; /* Black */
+    overflow: hidden;
+    position: fixed;
+}
+
+.centrenav {
+    height: 77%; /* Full-height: remove this if you want "auto" height */
+    width: 88%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 0;
+    background-color: darkblue; /* Black */
+    overflow: hidden;
+    position: fixed;
+    color: white;
+}
