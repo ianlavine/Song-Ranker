@@ -1,22 +1,33 @@
-{% extends "base.html" %}
-
-    {% block content %} 
-
-        <h1>Hi, {{ current_user.username }}! You played {{ current_user.rounds }} rounds!</h1>
-        <h1>Song Ranker</h1>
-        <h2>Artists</h2>
-        <form action="" method="post" novalidate>
-            {% for subfield in artistform.select_artist %}
-                <tr>
-                    <td>{{ subfield }}</td>
-                    <td>{{ subfield.label }}</td>
-                </tr>
-            {% endfor %}
-            <p>{{ artistform.submit() }}</p>
-        </form>
-        {% if art != None %}
-            <h3>{{ art.name }}: {{ art.rounds }}</h3>
-        {% endif %}
-    {% block content2 %}{% endblock %}
-    {% endblock %}
+<form action="" method="post" novalidate>
+    {{ newform.hidden_tag() }}
+    <p>
+        {{ newform.new_artist.label }}<br>
+        {{ newform.new_artist(size=32) }}
+    </p>
+    <p>{{ newform.submit() }}</p>
+</form>
+<h2>Chooose</h2>
+<ul>
+    <form action="" method="get">
+        {% for x in game_songs %}
+            <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
+            <label>{{ x.name }}</label>
+        {% endfor %}
+    </form> 
+</ul>
+<h2>Albums</h2>
+<h3>In Rotation</h3>
+<form action="" method="get">
+    {% for x in album_data %}
+        <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+        <label>{{ x.name }}</label>
+    {% endfor %}
+</form> 
+<h3>Excluded</h3>
+<form action="" method="get">
+    {% for x in album_data_off %}
+        <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
+        <label>{{ x.name }}</label>
+    {% endfor %}
+</form>
     

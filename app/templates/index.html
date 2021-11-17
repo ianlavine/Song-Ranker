@@ -1,6 +1,50 @@
-{% extends "choice.html" %}
-
-    {% block content2 %}
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        {% if title %}
+        <title>{{ title }} - Music Ranker</title>
+        {% else %}
+        <title>Music Ranker</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            Song Ranker:
+            <a href="{{ url_for('index') }}">Play</a>
+            <a href="{{ url_for('ranks') }}">Rankings</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <h1>Hi, {{ current_user.username }}! You played {{ current_user.rounds }} rounds!</h1>
+        <h1>Song Ranker</h1>
+        <h2>Artists</h2>
+        <div class="sidenav">
+            <form action="" method="post" novalidate>
+                {% for subfield in artistform.select_artist %}
+                    <ul>
+                        <li>{{ subfield }}</li>
+                        <li>{{ subfield.label }}</li>
+                    </ul>
+                {% endfor %}
+                <p>{{ artistform.submit() }}</p>
+            </form>
+        </div>
+        {% if art != None %}
+            <h3>{{ art.name }}: {{ art.rounds }}</h3>
+        {% endif %}
         <form action="" method="post" novalidate>
             {{ newform.hidden_tag() }}
             <p>
@@ -32,5 +76,6 @@
                 <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
                 <label>{{ x.name }}</label>
             {% endfor %}
-        </form> 
-    {% endblock %}
+        </form>
+    </body>
+</html>
