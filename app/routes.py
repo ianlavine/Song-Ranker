@@ -2,7 +2,7 @@ from app import app, db
 from app.forms import RegistrationForm
 from flask import request, render_template, url_for, redirect
 import Ranking
-from app.forms import newArtistForm, selectArtistForm, LoginForm, swapAlbumForm
+from app.forms import newArtistForm, selectArtistForm, LoginForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Artist, Album, Song
 from werkzeug.urls import url_parse
@@ -110,21 +110,41 @@ def index():
 
         newArtist = user_data.return_artists([newform.new_artist.data])[0]
 
-        art = Artist(name=newArtist.name, owner=user, rounds=0)
-        db.session.add(art)
-        for alb in newArtist.Albums:
-            album = Album(name=alb.name, in_use=True, owner=art, score=0)
-            db.session.add(album)
-            for so in alb.Songs:
-                song = Song(name=so.name, score=1000, owner=album)
-                db.session.add(song)
-        db.session.commit()
-        artistform = update_artist_form(user)
+        name = newArtist.name
+        if name not in [x.name for x in user.artists.all()]:
+
+            art = Artist(name=newArtist.name, owner=user, rounds=0)
+            db.session.add(art)
+            for alb in newArtist.Albums:
+                album = Album(name=alb.name, in_use=True, owner=art, score=0)
+                db.session.add(album)
+                for so in alb.Songs:
+                    song = Song(name=so.name, score=1000, owner=album)
+                    db.session.add(song)
+            db.session.commit()
+            artistform = update_artist_form(user)
         
     if artistform.select_artist.data != None:
-        artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
-        update_data(artistform)
-        game_songs = Ranking.new_battle(song_data)
+
+        if artistform.submit.data:
+            artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
+            update_data(artistform)
+            game_songs = Ranking.new_battle(song_data)
+
+        elif artistform.remove.data:
+
+            temp_artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
+
+            if artist == temp_artist:
+                artist = None
+                update_data(artistform)
+
+            for alb in temp_artist.albums.all():
+                for s in alb.songs.all():
+                    db.session.delete(s)
+                db.session.delete(alb)
+            db.session.delete(temp_artist)
+            db.session.commit()
 
     alber = request.args.get("alber", "")
     alber2 = request.args.get("alber2", "")
@@ -174,14 +194,23 @@ def update_data(form):
 
 def update_albums():
 
-    global artist, album_data, album_data_off, song_data
+    global artist, album_data, album_data_off, song_data, game_songs
 
-    album_data = [alb for alb in artist.albums.all() if alb.in_use]
-    album_data_off = [alb for alb in artist.albums.all() if not alb.in_use]
-    song_data = [song for alb in album_data for song in alb.songs.all()]
+    if artist is None:
+        album_data = []
+        album_data_off = []
+        song_data = []
+        game_songs = [None, None]
+
+    else:
+        album_data = [alb for alb in artist.albums.all() if alb.in_use]
+        album_data_off = [alb for alb in artist.albums.all() if not alb.in_use]
+        song_data = [song for alb in album_data for song in alb.songs.all()]
 
 
 def update_artist_form(user):
     form = selectArtistForm()
     form.select_artist.choices = [(x.id, x.name) for x in user.artists.all()]
+    form.length = len(form.select_artist.choices)
     return form
+

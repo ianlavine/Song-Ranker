@@ -1,4 +1,4 @@
-import scrape
+import spotify
 from entities import album, artist, song
 
 names = []
@@ -8,13 +8,13 @@ def return_artists(art):
         art = names
     artists = []
     for name in art:
-        data = scrape.scrape_data(name)
+        data = spotify.scrape_data(name)
         albums = []
-        for content in data:
+        for content in data[1]:
             song_content = []
-            for s in content[0]:
+            for s in data[1][content][1]:
                 song_content.append(song.Song(s))
-            albums.append(album.Album(content[1], song_content))
+            albums.append(album.Album(content, song_content))
         artists.append(artist.Artist(name, albums))
 
     return artists

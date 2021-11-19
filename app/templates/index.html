@@ -8,53 +8,45 @@
         {% endif %}
     </head>
     <body>
-        <section class="topnav">
-            <div class="title">
-                <h1>Song Ranker</h1>
-            </div>
-            <div class="info">
-                <ul style="list-style-type: none;">
-                    <li>{{ current_user.username }}</li>
-                    <li>Artists: {{ artistform.length }}</li>
-                    <li>Rounds Played: {{ current_user.rounds }}</li>
+        <div class="wrapper">
+            <nav class="topnav">
+                <ul class='nav-list'>
+                    <li class='nav-mid'>Song Ranker</li>
+                        <li><ul style="list-style-type: none;" class='items'>
+                            <li>{{ current_user.username }}</li>
+                            <li>Artists: {{ artistform.length }}</li>
+                            <li>Rounds Played: {{ current_user.rounds }}</li>
+                        </ul></li>
                 </ul>
+                <!-- <a href="{{ url_for('index') }}">Play</a>
+                <a href="{{ url_for('ranks') }}">Rankings</a>
+                {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+                {% else %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+                {% endif %} -->
+            </nav>
+            <div class="sidenav">
+                <h2>Artists</h2>
+                <form action="" method="post" novalidate>
+                    {% for subfield in artistform.select_artist %}
+                        <td>
+                            <tr>{{ subfield }}</tr>
+                            <tr>{{ subfield.label }}</tr><br>
+                        </td>
+                    {% endfor %}
+                    <p>{{ artistform.submit() }}</p>
+                    <p>{{ artistform.remove() }}</p>
+                </form>
+                <form action="" method="post" novalidate>
+                    {{ newform.hidden_tag() }}
+                    <p>
+                        {{ newform.new_artist.label }}<br>
+                        {{ newform.new_artist(size=32) }}
+                    </p>
+                    <p>{{ newform.submit() }}</p>
+                </form>
             </div>
-            <!-- <a href="{{ url_for('index') }}">Play</a>
-            <a href="{{ url_for('ranks') }}">Rankings</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %} -->
-        </section>
-        <!-- {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %} -->
-        <div class="sidenav">
-            <h2>Artists</h2>
-            <form action="" method="post" novalidate>
-                {% for subfield in artistform.select_artist %}
-                    <td>
-                        <tr>{{ subfield }}</tr>
-                        <tr>{{ subfield.label }}</tr><br>
-                    </td>
-                {% endfor %}
-                <p>{{ artistform.submit() }}</p>
-            </form>
-            <form action="" method="post" novalidate>
-                {{ newform.hidden_tag() }}
-                <p>
-                    {{ newform.new_artist.label }}<br>
-                    {{ newform.new_artist(size=32) }}
-                </p>
-                <p>{{ newform.submit() }}</p>
-            </form>
         </div>
         <div class="centrenav">
             {% if art != None %}

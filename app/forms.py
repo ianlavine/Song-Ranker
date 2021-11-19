@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, RadioField, SelectField, SubmitField, widgets
+from wtforms import StringField, PasswordField, RadioField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
@@ -9,12 +9,9 @@ class newArtistForm(FlaskForm):
 
 class selectArtistForm(FlaskForm):
     select_artist = RadioField("Choose an Artist")
+    length = IntegerField('lala')
     submit = SubmitField('Submit')
-
-class swapAlbumForm(FlaskForm):
-    remove = RadioField("In Rotation")
-    include = RadioField("Excluded")
-    submit = SubmitField('Update')
+    remove = SubmitField('Remove')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

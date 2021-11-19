@@ -8,8 +8,17 @@
     overflow-x: hidden; /* Disable horizontal scroll */
   }
 
-.topnav {
+.wrapper{
     display: flex;
+    position: relative;
+}
+
+nav {
+    width: 100%; /* Set the width of the sidebar */
+    margin-left: 200px;
+}
+
+.topnav {
     height: 15%; /* Full-height: remove this if you want "auto" height */
     width: 88%; /* Set the width of the sidebar */
     top: 0;
@@ -19,6 +28,30 @@
     position: fixed;
     justify-content: space-between;
 }
+
+.nav-mid {
+    float: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.items {
+    /* -webkit-flex-direction: column; */
+    flex-direction: column;
+    float: left;
+    list-style: none;
+    margin-right: 2rem;
+}
+
 
 .title {
     justify-content: center;
