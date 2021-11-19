@@ -85,7 +85,7 @@ class Artist():
         alb_endpoint = f"   https://api.spotify.com/v1/artists/{self.artist_id}/albums"
         r2 = requests.get(alb_endpoint, headers=self.headers)
         alb_choices = r2.json()['items']
-        self.albums = {x['name']: [x['id']] for x in alb_choices}
+        self.albums = {x['name']: [x['id'], x['images'][0]['url']] for x in alb_choices}
 
     def get_songs(self):
         for alb in self.albums:
@@ -106,8 +106,6 @@ class Artist():
 def scrape_data(a):
     artist = Artist(a)
     return artist.execute_order()
-
-# print(scrape_data('Kanye'))
 
     
 

@@ -12,9 +12,9 @@ def return_artists(art):
         albums = []
         for content in data[1]:
             song_content = []
-            for s in data[1][content][1]:
+            for s in data[1][content][2]:
                 song_content.append(song.Song(s))
-            albums.append(album.Album(content, song_content))
+            albums.append(album.Album(content, song_content, data[1][content][1]))
         artists.append(artist.Artist(name, albums))
 
     return artists
