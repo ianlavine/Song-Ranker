@@ -11,7 +11,7 @@
         <div class="wrapper">
             <nav class="topnav">
                 <ul class='nav-list'>
-                    <li class='nav-mid'>Song Ranker</li>
+                    <li class='nav-title'><h1>Song Ranker</h1></li>
                         <li><ul style="list-style-type: none;" class='items'>
                             <li>{{ current_user.username }}</li>
                             <li>Artists: {{ artistform.length }}</li>
@@ -35,8 +35,8 @@
                             <tr>{{ subfield.label }}</tr><br>
                         </td>
                     {% endfor %}
-                    <p>{{ artistform.submit() }}</p>
-                    <p>{{ artistform.remove() }}</p>
+                    <div>{{ artistform.submit() }}</div>
+                    <div>{{ artistform.remove() }}</div>
                 </form>
                 <form action="" method="post" novalidate>
                     {{ newform.hidden_tag() }}
@@ -58,6 +58,7 @@
                     {% for x in game_songs %}
                         <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
                         <label>{{ x.name }}</label>
+                        <img src= {{ images[loop.index0] }}>
                     {% endfor %}
                 </form> 
             </ul>

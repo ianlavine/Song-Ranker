@@ -36,6 +36,7 @@ class Album(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
     songs = db.relationship('Song', backref='owner', lazy='dynamic')
     score = db.Column(db.Integer())
+    cover = db.Column(db.String(64))
 
     def __repr__(self):
         return '<Post {}>'.format(self.name)

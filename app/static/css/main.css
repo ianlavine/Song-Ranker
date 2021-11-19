@@ -1,11 +1,31 @@
+h1 {
+    font-size: 48px;
+}
+
+.wrapper h2 {
+    font-size: 40px;
+    text-align: center;
+}
+
+li {
+    font-size: 20px;
+}
+
+img {
+    width:300px; /* you can use % */
+    height: auto;
+}
+
+
 .sidenav {
     height: 92%; /* Full-height: remove this if you want "auto" height */
-    width: 12%; /* Set the width of the sidebar */
+    width: 14%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     top: 0; /* Stay at the top */
     left: 0;
     background-color:skyblue; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
+    font-size: 30px;
   }
 
 .wrapper{
@@ -20,7 +40,7 @@ nav {
 
 .topnav {
     height: 15%; /* Full-height: remove this if you want "auto" height */
-    width: 88%; /* Set the width of the sidebar */
+    width: 86%; /* Set the width of the sidebar */
     top: 0;
     right: 0;
     background-color: lightcoral; /* Black */
@@ -29,12 +49,14 @@ nav {
     justify-content: space-between;
 }
 
-.nav-mid {
+.nav-title {
     float: none;
-    position: absolute;
+    position:
+     absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    /* font-size: large; */
 }
 
 .nav-list {
@@ -73,7 +95,7 @@ nav {
 
 .centrenav {
     height: 77%; /* Full-height: remove this if you want "auto" height */
-    width: 88%; /* Set the width of the sidebar */
+    width: 86%; /* Set the width of the sidebar */
     bottom: 8%;
     right: 0;
     background-color: darkblue; /* Black */

@@ -4,10 +4,12 @@ class Album:
     name: str
     score: int
     Songs: list[song.Song]
+    Cover: str
 
-    def __init__(self, name, Songs):
+    def __init__(self, name, Songs, Cover):
         self.name = name
         self.Songs = Songs
+        self.Cover = Cover
         self.score = 0
 
     def recalc(self):

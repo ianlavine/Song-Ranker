@@ -11,6 +11,7 @@ import user_data
 artist = None
 
 game_songs = [None, None]
+images = [None, None]
 song_data = []
 album_data = [] 
 album_data_off = []
@@ -100,7 +101,7 @@ def ranks():
 @login_required
 def index():
 
-    global game_songs, album_data, album_data_off, song_data, topten, artist
+    global game_songs, album_data, album_data_off, song_data, topten, artist, images
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
@@ -116,7 +117,7 @@ def index():
             art = Artist(name=newArtist.name, owner=user, rounds=0)
             db.session.add(art)
             for alb in newArtist.Albums:
-                album = Album(name=alb.name, in_use=True, owner=art, score=0)
+                album = Album(name=alb.name, in_use=True, owner=art, score=0, cover=alb.Cover)
                 db.session.add(album)
                 for so in alb.Songs:
                     song = Song(name=so.name, score=1000, owner=album)
@@ -181,7 +182,16 @@ def index():
 
         game_songs = Ranking.new_battle(song_data)
 
-    return render_template('index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, newform=newform, artistform=artistform, topten=topten, art=artist)
+    if game_songs[0] != None:
+        for s in range(len(game_songs)):
+            db.session.add(game_songs[s])
+            db.session.commit()
+            db.session.add(game_songs[s].owner)
+            db.session.commit()
+            images[s] = game_songs[s].owner.cover
+            db.session.commit()
+
+    return render_template('index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, images=images, newform=newform, artistform=artistform, topten=topten, art=artist)
 
 
 def update_data(form):
