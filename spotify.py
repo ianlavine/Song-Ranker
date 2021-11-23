@@ -83,9 +83,13 @@ class Artist():
 
     def get_albums(self):
         alb_endpoint = f"   https://api.spotify.com/v1/artists/{self.artist_id}/albums"
-        r2 = requests.get(alb_endpoint, headers=self.headers)
+        data = urlencode({"include_groups": "album"})
+        lookup_url = f"{alb_endpoint}?{data}"
+
+        r2 = requests.get(lookup_url, headers=self.headers)
         alb_choices = r2.json()['items']
         self.albums = {x['name']: [x['id'], x['images'][0]['url']] for x in alb_choices}
+        print(self.albums)
 
     def get_songs(self):
         for alb in self.albums:
@@ -108,4 +112,4 @@ def scrape_data(a):
     return artist.execute_order()
 
     
-
+scrape_data("black country, new roads")
