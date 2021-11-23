@@ -2,7 +2,7 @@ from app import app, db
 from app.auth import bp
 from app.auth.forms import RegistrationForm, LoginForm
 from flask import request, render_template, url_for, redirect
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user
 from werkzeug.urls import url_parse
 from app.models import User
 
