@@ -49,6 +49,7 @@
             </div>
         </div>
         <div class="centrenav">
+            <a href="{{ url_for('main.ranks') }}">Rankings</a>
             {% if art != None %}
                 <h3>{{ art.name }}: {{ art.rounds }}</h3>
             {% endif %}

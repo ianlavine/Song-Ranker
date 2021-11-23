@@ -3,7 +3,7 @@ from app.main import bp
 from app.main.forms import newArtistForm, selectArtistForm
 from flask import request, render_template
 import Ranking
-from flask_login import current_user, login_required
+from flask_login import current_user, login_manager, login_required
 from app.models import User, Artist, Album, Song
 import user_data
 

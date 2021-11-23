@@ -89,7 +89,6 @@ class Artist():
         r2 = requests.get(lookup_url, headers=self.headers)
         alb_choices = r2.json()['items']
         self.albums = {x['name']: [x['id'], x['images'][0]['url']] for x in alb_choices}
-        print(self.albums)
 
     def get_songs(self):
         for alb in self.albums:
