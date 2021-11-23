@@ -1,17 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, RadioField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from app.models import User
 
-class newArtistForm(FlaskForm):
-    new_artist = StringField('New Artist:', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-class selectArtistForm(FlaskForm):
-    select_artist = RadioField("Choose an Artist")
-    length = IntegerField('lala')
-    submit = SubmitField('Submit')
-    remove = SubmitField('Remove')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
