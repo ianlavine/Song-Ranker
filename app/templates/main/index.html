@@ -18,12 +18,12 @@
                             <li>Rounds Played: {{ current_user.rounds }}</li>
                         </ul></li>
                 </ul>
-                <!-- <a href="{{ url_for('index') }}">Play</a>
-                <a href="{{ url_for('ranks') }}">Rankings</a>
+                <!-- <a href="{{ url_for('main.index') }}">Play</a>
+                <a href="{{ url_for('main.ranks') }}">Rankings</a>
                 {% if current_user.is_anonymous %}
-                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('auth.login') }}">Login</a>
                 {% else %}
-                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
                 {% endif %} -->
             </nav>
             <div class="sidenav">
@@ -77,10 +77,10 @@
                     <label>{{ x.name }}</label>
                 {% endfor %}
             </form>
-            <a href="{{ url_for('ranks') }}">See Rankings</a>
+            <a href="{{ url_for('main.ranks') }}">See Rankings</a>
         </div>
     </body>
     <div class="bottomnav">
-        <a href="{{ url_for('logout') }}">Logout</a>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
     </div>
 </html>

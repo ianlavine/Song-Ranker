@@ -1,11 +1,10 @@
 from app import app, db
-from app.forms import RegistrationForm
-from flask import request, render_template, url_for, redirect
+from app.main import bp
+from app.main.forms import newArtistForm, selectArtistForm
+from flask import request, render_template
 import Ranking
-from app.forms import newArtistForm, selectArtistForm, LoginForm
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_required
 from app.models import User, Artist, Album, Song
-from werkzeug.urls import url_parse
 import user_data
 
 artist = None
@@ -22,43 +21,7 @@ ordered = []
 to_show = None
 sort_albs = []
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            return redirect(url_for('login'))
-        login_user(user)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, rounds=0)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
-
-@app.route("/ranks", methods=['GET', 'POST'])
+@bp.route("/ranks", methods=['GET', 'POST'])
 @login_required
 def ranks():
 
@@ -94,10 +57,10 @@ def ranks():
         ordered = [{'name': x.name, 'score': int(x.score)} for x in temp]
 
 
-    return render_template('ranks.html', artistform=artistform, sort_albs=sort_albs, topten=topten, art=artist, ordered=ordered, to_show=to_show)
+    return render_template('main/ranks.html', artistform=artistform, sort_albs=sort_albs, topten=topten, art=artist, ordered=ordered, to_show=to_show)
 
 
-@app.route("/index", methods=['GET', 'POST'])
+@bp.route("/index", methods=['GET', 'POST'])
 @login_required
 def index():
 
@@ -191,7 +154,7 @@ def index():
             images[s] = game_songs[s].owner.cover
             db.session.commit()
 
-    return render_template('index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, images=images, newform=newform, artistform=artistform, topten=topten, art=artist)
+    return render_template('main/index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, images=images, newform=newform, artistform=artistform, topten=topten, art=artist)
 
 
 def update_data(form):
