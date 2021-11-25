@@ -1,0 +1,35 @@
+h1 {
+    font-size: 56px;
+}
+
+body {
+    background-color: bisque;
+    margin: 40px;
+}
+
+.title {
+    text-align: center;
+}
+.opening {
+    color: orange;
+    font-weight: bold;
+    font-size: 30px;
+}
+.explanation {
+    font-size: 20px;
+    padding-bottom: 4%;
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+}
+
+.sign-in {
+    border: 1px solid black;
+}
+
+.features {
+    border: 1px solid black;
+}

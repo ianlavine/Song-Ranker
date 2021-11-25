@@ -49,11 +49,30 @@
             </div>
         </div>
         <div class="centrenav">
-            <a href="{{ url_for('main.ranks') }}">Rankings</a>
-            {% if art != None %}
+            <div class="artist-title">
+                {% if art != None %}
                 <h3>{{ art.name }}: {{ art.rounds }}</h3>
             {% endif %}
-            <h2>Chooose</h2>
+            </div>
+            <div class="album-list">
+                <h2>Albums</h2>
+                <h3>In Rotation: {{ album_data|length }}</h3>
+                <form action="" method="get">
+                    {% for x in album_data %}
+                        <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+                        <label>{{ x.name }}</label>
+                    {% endfor %}
+                </form> 
+                <h3>Excluded: {{ album_data_off|length }}</h3>
+                <form action="" method="get">
+                    {% for x in album_data_off %}
+                        <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
+                        <label>{{ x.name }}</label>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class='chooser'>
+                <h2>Chooose</h2>
             <ul>
                 <form action="" method="get">
                     {% for x in game_songs %}
@@ -63,21 +82,7 @@
                     {% endfor %}
                 </form> 
             </ul>
-            <h2>Albums</h2>
-            <h3>In Rotation: {{ album_data|length }}</h3>
-            <form action="" method="get">
-                {% for x in album_data %}
-                    <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                    <label>{{ x.name }}</label>
-                {% endfor %}
-            </form> 
-            <h3>Excluded: {{ album_data_off|length }}</h3>
-            <form action="" method="get">
-                {% for x in album_data_off %}
-                    <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
-                    <label>{{ x.name }}</label>
-                {% endfor %}
-            </form>
+            </div>
             <a href="{{ url_for('main.ranks') }}">See Rankings</a>
         </div>
     </body>
