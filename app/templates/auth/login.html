@@ -1,15 +1,21 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Song Ranker</h1>
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Music Ranker</title>
+        {% else %}
+        <title>Music Ranker</title>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+    <h1 class='title'>Song Ranker</h1>
     <div class='explanation'>
-        <h2>Welcome to Song Ranker:</h2>
-        <p>Song Ranker is a data driven site made for music geeks! Choose your favourite artists and decide 
+        <p><span class='opening'>Welcome to Song Ranker: </span>Song Ranker is a data driven site made for music geeks! Choose your favourite artists and decide 
             which of any two songs you like more. The ELO algorithm will determine a ranking for all the given songs
             you've chosen. Compare your results with other geeks, make playlists from your top picks, and consume data!!
         </p>
-        <h2>Why was this Created?</h2>
-        <p> The idea of Song Ranker is that its usually pretty difficult to rank all of a given 
+        <h2></h2>
+        <p><span class='opening'>Why was this Created? </span> The idea of Song Ranker is that its usually pretty difficult to rank all of a given 
             artists songs, even for huge fans. However, you CAN probably can pick
             between any two randomly chosen songs from that artist. This is where ELO comes in. 
             ELO was created as a rating system for calculating the relative skill levels of players or teams.
@@ -17,33 +23,37 @@
         </p>
         <p>Learn more about the ELO rating system <a href="https://en.wikipedia.org/wiki/Elo_rating_system">here.</a></p>
     </div>
-    <div class="sign-in">
-        <h1>Login to Play</h1>
-        <form action="" method="post" novalidate>
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.username.label }}<br>
-                {{ form.username(size=32) }}
-                {% for error in form.username.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>
-                {{ form.password.label }}<br>
-                {{ form.password(size=32) }}
-                {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
+    <div class="bottom">
+        <div class="sign-in">
+            <h3>Login to Play</h3>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}
+                    {% for error in form.username.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}
+                    {% for error in form.password.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+                <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
+            </form>
+        </div>
+        <div class="features">
+            <h3>Upcoming features</h3>
+            <ul>
+                <li>Nicer Styled Frontend</li>
+                <li>Connect to Personal Spotify account to create playlists and preload favourite artists.</li>
+            </ul>
+        </div>
     </div>
-    <div class="features">
-        <h3>Upcoming features</h3>
-        <ul>
-            <li>Nicer Styled Frontend</li>
-            <li>Connect to Personal Spotify account to create playlists and preload favourite artists.</li>
-        </ul>
-    </div>
-    <p>New User? <a href="{{ url_for('auth.register') }}">Click to Register!</a></p>
-{% endblock %}
+    
+    </body>
+</html>
