@@ -1,4 +1,4 @@
-from app import app, db
+from app import db
 from app.main import bp
 from app.main.forms import newArtistForm, selectArtistForm
 from flask import request, render_template

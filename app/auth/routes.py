@@ -1,4 +1,4 @@
-from app import app, db
+from app import db
 from app.auth import bp
 from app.auth.forms import RegistrationForm, LoginForm
 from flask import request, render_template, url_for, redirect
