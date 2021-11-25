@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn Song-Ranker:app
+web: flask db upgrade; gunicorn main:app
