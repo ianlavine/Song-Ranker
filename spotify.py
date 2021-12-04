@@ -109,6 +109,3 @@ class Artist():
 def scrape_data(a):
     artist = Artist(a)
     return artist.execute_order()
-
-    
-scrape_data("black country, new roads")
