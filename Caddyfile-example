@@ -1,0 +1,4 @@
+# vi: ft=caddyfile
+<public_base_url> {
+    reverse_proxy app:5000
+}
