@@ -3,33 +3,53 @@ h1 {
 }
 
 body {
-    background-color: bisque;
-    margin: 40px;
+    background-color: #D8F3DC;
+    margin: 40px 70px;
+}
+
+h3 {
+    color: #40916C;
 }
 
 .title {
     text-align: center;
+    color: #2D6A4F;
 }
+
 .opening {
-    color: orange;
+    color: #40916C;
     font-weight: bold;
     font-size: 30px;
 }
 .explanation {
-    font-size: 20px;
-    padding-bottom: 4%;
+    font-size: 25px;
+    padding-bottom: 1%;
 }
 
 .bottom {
     display: flex;
     justify-content: space-around;
-    font-size: 18px;
+    font-size: 25px;
+}
+
+.bottom-reg {
+    display: flex;
+    justify-content: space-around;
+    font-size: 21depx;
 }
 
 .sign-in {
-    border: 1px solid black;
+    border: 3px dotted #081C15;
+    padding: 1% 6%;
+
+}
+
+.login {
+    border: 3px dotted #081C15;
+    padding: 0% 6%;
 }
 
 .features {
-    border: 1px solid black;
+    border: 3px dotted #081C15;
+    padding: 1% 3%;
 }

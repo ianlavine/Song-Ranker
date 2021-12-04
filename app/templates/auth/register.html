@@ -1,37 +1,73 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Register</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Music Ranker</title>
+        {% else %}
+        <title>Music Ranker</title>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+    <h1 class='title'>Song Ranker</h1>
+    <div class='explanation'>
+        <p><span class='opening'>Welcome to Song Ranker: </span>Song Ranker is a data driven site made for music geeks! Choose your favourite artists and decide 
+            which of any two songs you like more. The ELO algorithm will determine a ranking for all the given songs
+            you've chosen. Compare your results with other geeks, make playlists from your top picks, and consume data!!
         </p>
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=64) }}<br>
-            {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+        <h2></h2>
+        <p><span class='opening'>Why was this Created? </span> The idea of Song Ranker is that its usually pretty difficult to rank all of a given 
+            artists songs, even for huge fans. However, you CAN probably can pick
+            between any two randomly chosen songs from that artist. This is where ELO comes in. 
+            ELO was created as a rating system for calculating the relative skill levels of players or teams.
+            This concept was applied to music rather than sports, and voila!
         </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}<br>
-            {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-{% endblock %}
+        <p>Learn more about the ELO rating system <a href="https://en.wikipedia.org/wiki/Elo_rating_system">here.</a></p>
+    </div>
+    <div class="bottom-reg">
+        <div class="login">
+            <h3>Register</h3>
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.username.label }}<br>
+                    {{ form.username(size=32) }}<br>
+                    {% for error in form.username.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.email.label }}<br>
+                    {{ form.email(size=64) }}<br>
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password.label }}<br>
+                    {{ form.password(size=32) }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>
+                    {{ form.password2.label }}<br>
+                    {{ form.password2(size=32) }}<br>
+                    {% for error in form.password2.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+                <p>{{ form.submit() }}</p>
+                <p>Already have an account? <a href="{{ url_for('auth.login') }}">Click to Login!</a></p>
+            </form>
+        </div>
+        <div class="features">
+            <h3>Upcoming features</h3>
+            <ul>
+                <li>Nicer Styled Frontend</li>
+                <li>Connect to Personal Spotify account to create <br> playlists and preload favourite artists.</li>
+            </ul>
+        </div>
+    </div>
+    
+    </body>
+</html>

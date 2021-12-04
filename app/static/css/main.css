@@ -1,3 +1,7 @@
+html {
+    font-size: 22px;
+}
+
 h1 {
     font-size: 48px;
 }
@@ -16,18 +20,40 @@ img {
     height: auto;
 }
 
-
+h3 {
+    font-size: 20px;
+}
 
 .sidenav {
-    height: 92%; /* Full-height: remove this if you want "auto" height */
+    height: 100%; /* Full-height: remove this if you want "auto" height */
     width: 14%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color:skyblue; /* Black */
+    background-color: #2C7DA0; /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     font-size: 30px;
-  }
+}
+
+.buttons {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 20%;
+    gap: 10px;
+}
+
+.input {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 1% 10%;
+}
+
+.artist{
+    padding: 1% 10%;
+    font-size: 20px;
+}
 
 .wrapper{
     display: flex;
@@ -44,7 +70,7 @@ nav {
     width: 86%; /* Set the width of the sidebar */
     top: 0;
     right: 0;
-    background-color: lightcoral; /* Black */
+    background-color: #89C2D9;
     overflow: hidden;
     position: fixed;
     justify-content: space-between;
@@ -85,13 +111,14 @@ nav {
 }
 
 .bottomnav {
-    height: 8%; /* Full-height: remove this if you want "auto" height */
     width: 100%; /* Set the width of the sidebar */
     bottom: 0;
     left: 0;
-    background-color:lightcoral; /* Black */
+    background-color: #89C2D9;
     overflow: hidden;
     position: fixed;
+    display: flex;
+    justify-content: space-between;
 }
 
 .centrenav {
@@ -99,7 +126,7 @@ nav {
     width: 86%; /* Set the width of the sidebar */
     bottom: 8%;
     right: 0;
-    background-color: darkblue; /* Black */
+    background-color: #D0E9F1; 
     overflow: hidden;
     position: fixed;
     color: white;

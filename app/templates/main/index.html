@@ -29,22 +29,27 @@
             <div class="sidenav">
                 <h2>Artists</h2>
                 <form action="" method="post" novalidate>
+                    <div class='artist'>
                     {% for subfield in artistform.select_artist %}
                         <td>
                             <tr>{{ subfield }}</tr>
                             <tr>{{ subfield.label }}</tr><br>
                         </td>
                     {% endfor %}
-                    <div>{{ artistform.submit() }}</div>
-                    <div>{{ artistform.remove() }}</div>
+                    </div>
+                    <div class='buttons'>
+                        {{ artistform.submit() }}
+                        {{ artistform.remove() }}
+                    </div>
                 </form>
                 <form action="" method="post" novalidate>
-                    {{ newform.hidden_tag() }}
-                    <p>
-                        {{ newform.new_artist.label }}<br>
+                    
+                    <div class='input'>
+                        {{ newform.hidden_tag() }}
+                        {{ newform.new_artist.label}}
                         {{ newform.new_artist(size=32) }}
-                    </p>
-                    <p>{{ newform.submit() }}</p>
+                    </div>
+                    <div class='buttons'> {{ newform.submit() }}</div>
                 </form>
             </div>
         </div>
@@ -87,6 +92,9 @@
         </div>
     </body>
     <div class="bottomnav">
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
+        <ul style="list-style-type: none;" class="bottom">
+            <li class="bottom-child"><p>Contact Creator: <a href="mailto: ianlster304@gmail.com">Ian Lavine</a></p></li>
+            <li class="bottom-child"><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
     </div>
 </html>
