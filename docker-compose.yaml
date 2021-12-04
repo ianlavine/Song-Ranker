@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 
 services:
   proxy:
@@ -14,7 +14,8 @@ services:
       - app
   app:
     image: spotify-ranker
-    build: {}
+    build:
+      context: .
     environment:
       DATABASE_URL: "sqlite:////data/app.db"
     volumes:
