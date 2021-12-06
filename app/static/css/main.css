@@ -16,7 +16,7 @@ li {
 }
 
 img {
-    width:300px; /* you can use % */
+    width:350px; /* you can use % */
     height: auto;
 }
 
@@ -110,7 +110,79 @@ nav {
     text-align: left;
 }
 
+
+.centrenav {
+    height: 77%; /* Full-height: remove this if you want "auto" height */
+    width: 86%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 0;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+    /* color: white; */
+}
+
+.album-list {
+    text-align: left;
+    height: 77%; /* Full-height: remove this if you want "auto" height */
+    width: 26%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 56%;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+}
+
+.chooser {
+    text-align: center;
+    height: 77%; /* Full-height: remove this if you want "auto" height */
+    width: 56%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 0;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+
+}
+
+.choice-1 {
+    text-align: center;
+    height: 53%; /* Full-height: remove this if you want "auto" height */
+    width: 28%; /* Set the width of the sidebar */
+    bottom: 18%;
+    right: 28%;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+
+}
+
+.choice-2 {
+    text-align: center;
+    height: 53%; /* Full-height: remove this if you want "auto" height */
+    width: 28%; /* Set the width of the sidebar */
+    bottom: 18%;
+    right: 0;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+
+}
+
+.rankings-link {
+    text-align: center;
+    height: 10%; /* Full-height: remove this if you want "auto" height */
+    width: 56%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 0;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+
+}
+
 .bottomnav {
+    height: 8%;
     width: 100%; /* Set the width of the sidebar */
     bottom: 0;
     left: 0;
@@ -121,13 +193,14 @@ nav {
     justify-content: space-between;
 }
 
-.centrenav {
-    height: 77%; /* Full-height: remove this if you want "auto" height */
-    width: 86%; /* Set the width of the sidebar */
-    bottom: 8%;
+.bottom-right-child {
+    height: 5%;
+    width: 5%; /* Set the width of the sidebar */
+    bottom: 0;
     right: 0;
-    background-color: #D0E9F1; 
+    background-color: #89C2D9;
     overflow: hidden;
     position: fixed;
-    color: white;
+    display: flex;
+    justify-content: space-between;
 }

@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        {% if title %}
+        <title>{{ title }} - Music Ranker</title>
+        {% else %}
+        <title>Music Ranker</title>
+        {% endif %}
+    </head>
+    <body>
+        <div class="wrapper">
+            <nav class="topnav">
+                <ul class='nav-list'>
+                    <li class='nav-title'><h1>Song Ranker</h1></li>
+                        <li><ul style="list-style-type: none;" class='items'>
+                            <li>{{ current_user.username }}</li>
+                            <li>Artists: {{ artistform.length }}</li>
+                            <li>Rounds Played: {{ current_user.rounds }}</li>
+                        </ul></li>
+                </ul>
+            </nav>
+            <div class="sidenav">
+                <h2>Artists</h2>
+                <form action="" method="post" novalidate>
+                    <div class='artist'>
+                    {% for subfield in artistform.select_artist %}
+                        <td>
+                            <tr>{{ subfield }}</tr>
+                            <tr>{{ subfield.label }}</tr><br>
+                        </td>
+                    {% endfor %}
+                    </div>
+                    <div class='buttons'>
+                        {{ artistform.submit() }}
+                        {{ artistform.remove() }}
+                    </div>
+                </form>
+                <form action="" method="post" novalidate>
+                    
+                    <div class='input'>
+                        {{ newform.hidden_tag() }}
+                        {{ newform.new_artist.label}}
+                        {{ newform.new_artist(size=32) }}
+                    </div>
+                    <div class='buttons'> {{ newform.submit() }}</div>
+                </form>
+            </div>
+        </div>
+        <div class="centrenav">
+            {% block centre %}{% endblock %}
+        </div>
+    </body>
+    <div class="bottomnav">
+        <ul style="list-style-type: none;">
+            <li class="bottom-child">Contact Creator: <a href="mailto: ianlster304@gmail.com">Ian Lavine</a></li>
+            <li class="bottom-right-child"><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+    </div>
+</html>

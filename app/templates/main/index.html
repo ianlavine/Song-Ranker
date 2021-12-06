@@ -1,100 +1,45 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-        {% if title %}
-        <title>{{ title }} - Music Ranker</title>
-        {% else %}
-        <title>Music Ranker</title>
-        {% endif %}
-    </head>
-    <body>
-        <div class="wrapper">
-            <nav class="topnav">
-                <ul class='nav-list'>
-                    <li class='nav-title'><h1>Song Ranker</h1></li>
-                        <li><ul style="list-style-type: none;" class='items'>
-                            <li>{{ current_user.username }}</li>
-                            <li>Artists: {{ artistform.length }}</li>
-                            <li>Rounds Played: {{ current_user.rounds }}</li>
-                        </ul></li>
-                </ul>
-                <!-- <a href="{{ url_for('main.index') }}">Play</a>
-                <a href="{{ url_for('main.ranks') }}">Rankings</a>
-                {% if current_user.is_anonymous %}
-                <a href="{{ url_for('auth.login') }}">Login</a>
-                {% else %}
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-                {% endif %} -->
-            </nav>
-            <div class="sidenav">
-                <h2>Artists</h2>
-                <form action="" method="post" novalidate>
-                    <div class='artist'>
-                    {% for subfield in artistform.select_artist %}
-                        <td>
-                            <tr>{{ subfield }}</tr>
-                            <tr>{{ subfield.label }}</tr><br>
-                        </td>
-                    {% endfor %}
-                    </div>
-                    <div class='buttons'>
-                        {{ artistform.submit() }}
-                        {{ artistform.remove() }}
-                    </div>
-                </form>
-                <form action="" method="post" novalidate>
-                    
-                    <div class='input'>
-                        {{ newform.hidden_tag() }}
-                        {{ newform.new_artist.label}}
-                        {{ newform.new_artist(size=32) }}
-                    </div>
-                    <div class='buttons'> {{ newform.submit() }}</div>
-                </form>
-            </div>
-        </div>
-        <div class="centrenav">
-            <div class="artist-title">
-                {% if art != None %}
-                <h3>{{ art.name }}: {{ art.rounds }}</h3>
-            {% endif %}
-            </div>
+{% extends "based.html" %}
+
+{% block centre %}
+        {% if art != None %}
             <div class="album-list">
                 <h2>Albums</h2>
                 <h3>In Rotation: {{ album_data|length }}</h3>
                 <form action="" method="get">
                     {% for x in album_data %}
                         <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                        <label>{{ x.name }}</label>
+                        <label>{{ x.name }}</label></br>
                     {% endfor %}
                 </form> 
                 <h3>Excluded: {{ album_data_off|length }}</h3>
                 <form action="" method="get">
                     {% for x in album_data_off %}
                         <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
-                        <label>{{ x.name }}</label>
+                        <label>{{ x.name }}</label></br>
                     {% endfor %}
                 </form>
             </div>
             <div class='chooser'>
+            
                 <h2>Chooose</h2>
             <ul>
                 <form action="" method="get">
-                    {% for x in game_songs %}
-                        <input type="submit" id="htmlo" name="songer" value= {{ loop.index0 }}>
-                        <label>{{ x.name }}</label>
-                        <img src= {{ images[loop.index0] }}>
-                    {% endfor %}
-                </form> 
+                    {% if game_songs %}
+                    <div class='choice-1'>
+                        <img src= {{ images[0] }}></br>
+                        <input type="submit" id="htmlo" name="songer" value=0>
+                        <label>{{ game_songs[0].name }}</label>
+                    </div>
+                    <div class='choice-2'>
+                        <img src= {{ images[1] }}></br>
+                        <input type="submit" id="htmlo" name="songer" value=1>
+                        <label>{{ game_songs[1].name }}</label>
+                    </div>
+                    {% endif %}
             </ul>
+            <div class='rankings-link'>
+                <a href="{{ url_for('main.ranks') }}">See Rankings</a>
             </div>
-            <a href="{{ url_for('main.ranks') }}">See Rankings</a>
-        </div>
-    </body>
-    <div class="bottomnav">
-        <ul style="list-style-type: none;" class="bottom">
-            <li class="bottom-child"><p>Contact Creator: <a href="mailto: ianlster304@gmail.com">Ian Lavine</a></p></li>
-            <li class="bottom-child"><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-        </ul>
-    </div>
-</html>
+            </div>
+        {% endif %}
+{% endblock %}

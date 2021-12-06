@@ -1,26 +1,34 @@
-{% extends "choice.html" %}
+{% extends "based.html" %}
 
-{% block content2 %}
+{% block centre %}
     <h1>Rankings</h1>
-    <h2>Songs</h2>
-    <ol>
-        {% for top in topten %}
-            <li>{{ top.name }}: {{ top.score }}</li>
-        {% endfor %}
-    </ol>
-    <h2>Albums</h2>
-    <form action="" method="get">
-            {% for x in sort_albs %}
-                <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                <label>{{ x.name }}: {{ x.score }}</label>
-            {% endfor %}
-        </form> 
+    <div class="album-list">
+        <h2>Albums</h2>
+        <form action="" method="get">
+                {% for x in sort_albs %}
+                    <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+                    <label>{{ x.name }}: {{ x.score }}</label></br>
+                {% endfor %}
+        </form>
+    </div>
+    <div class='chooser'>
     {% if to_show.name != None %}
-        <h3>{{ to_show.name }}</h3>
+        <h2>Songs From {{ to_show.name }}</h2>
         <ol>
             {% for son in ordered %}
                 <li>{{ son.name }}: {{ son.score }}</li>
             {% endfor %}
         </ol>
+    {% else %}
+        <h2>All Songs</h2>
+        <ol>
+            {% for top in topten %}
+                <li>{{ top.name }}: {{ top.score }}</li>
+            {% endfor %}
+        </ol>
     {% endif %}
+    <div class='rankings-link'>
+        <a href="{{ url_for('main.index') }}">Keep Playing</a>
+    </div>
+    </div>
 {% endblock %}
