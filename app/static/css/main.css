@@ -133,6 +133,17 @@ nav {
     position: fixed;
 }
 
+.album-list2 {
+    text-align: left;
+    height: 65%; /* Full-height: remove this if you want "auto" height */
+    width: 26%; /* Set the width of the sidebar */
+    bottom: 8%;
+    right: 56%;
+    background-color: #D0E9F1; 
+    overflow: hidden;
+    position: fixed;
+}
+
 .chooser {
     text-align: center;
     height: 77%; /* Full-height: remove this if you want "auto" height */

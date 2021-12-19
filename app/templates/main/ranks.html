@@ -2,7 +2,7 @@
 
 {% block centre %}
     <h1>Rankings</h1>
-    <div class="album-list">
+    <div class="album-list2">
         <h2>Albums</h2>
         <form action="" method="get">
                 {% for x in sort_albs %}
@@ -14,18 +14,18 @@
     <div class='chooser'>
     {% if to_show.name != None %}
         <h2>Songs From {{ to_show.name }}</h2>
-        <ol>
+        <ul>
             {% for son in ordered %}
-                <li>{{ son.name }}: {{ son.score }}</li>
+                <li>{{ loop.index }}. {{ son.name }}: {{ son.score }}</li>
             {% endfor %}
-        </ol>
+        </ul>
     {% else %}
         <h2>All Songs</h2>
-        <ol>
+        <ul>
             {% for top in topten %}
-                <li>{{ top.name }}: {{ top.score }}</li>
+                <li>{{ loop.index }}. {{ top.name }}: {{ top.score }}</li>
             {% endfor %}
-        </ol>
+        </ul>
     {% endif %}
     <div class='rankings-link'>
         <a href="{{ url_for('main.index') }}">Keep Playing</a>
