@@ -20,37 +20,18 @@ user = None
 ordered = []
 to_show = None
 sort_albs = []
-
+alber = None
 
 @bp.route("/ranks", methods=['GET', 'POST'])
 @login_required
 def ranks():
 
-    global ordered, to_show, sort_albs
+    global ordered, to_show, sort_albs, artist, topten, ordered, song_data, album_data, alber
+
+    alber = request.args.get("alber", "")
 
     newform, artistform = form_checks()
 
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    artistform = update_artist_form(user)
-
-    topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
-
-    if artistform.select_artist.data != None:
-
-        update_data(artistform)
-
-        song_data.sort()
-        topten = [{'name': x.name, 'score': int(x.score)} for x in song_data]
-
-        for alb in album_data:
-            alb.score = sum([s.score for s in alb.songs.all()]) / len(alb.songs.all())
-            db.session.add(alb)
-            db.session.add(artist)
-        db.session.commit()
-
-        sort_albs = sorted(album_data)
-
-    alber = request.args.get("alber", "")
     if alber:
         to_show = sort_albs[int(alber)]
         db.session.add(to_show)
@@ -58,7 +39,9 @@ def ranks():
         temp = [x for x in to_show.songs.all()]
         temp.sort()
         ordered = [{'name': x.name, 'score': int(x.score)} for x in temp]
-
+    else:
+        to_show = None
+        ordered = []
 
     return render_template('main/ranks.html', artistform=artistform, newform=newform, sort_albs=sort_albs, topten=topten, art=artist, ordered=ordered, to_show=to_show)
 
@@ -122,7 +105,7 @@ def index():
 
 def form_checks():
 
-    global user, artist, game_songs
+    global user, artist, game_songs, topten, sort_albs, alber
 
     user = User.query.filter_by(username=current_user.username).first_or_404()
     artistform = update_artist_form(user)
@@ -152,6 +135,19 @@ def form_checks():
             artist = Artist.query.filter_by(id=artistform.select_artist.data).first_or_404()
             update_albums()
             game_songs = Ranking.new_battle(song_data)
+
+            temp_sort = sorted(song_data)
+            topten = [{'name': x.name, 'score': int(x.score)} for x in temp_sort]
+
+            for alb in album_data:
+                alb.score = sum([s.score for s in alb.songs.all()]) / len(alb.songs.all())
+                db.session.add(alb)
+                db.session.add(artist)
+            db.session.commit()
+
+            sort_albs = sorted(album_data)
+
+            alber = None
 
         elif artistform.remove.data:
 

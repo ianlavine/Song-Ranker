@@ -1,34 +1,39 @@
 {% extends "based.html" %}
 
 {% block centre %}
-    <h1>Rankings</h1>
-    <div class="album-list2">
-        <h2>Albums</h2>
-        <form action="" method="get">
-                {% for x in sort_albs %}
-                    <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                    <label>{{ x.name }}: {{ x.score }}</label></br>
-                {% endfor %}
-        </form>
-    </div>
-    <div class='chooser'>
-    {% if to_show.name != None %}
-        <h2>Songs From {{ to_show.name }}</h2>
-        <ul>
-            {% for son in ordered %}
-                <li>{{ loop.index }}. {{ son.name }}: {{ son.score }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <h2>All Songs</h2>
-        <ul>
-            {% for top in topten %}
-                <li>{{ loop.index }}. {{ top.name }}: {{ top.score }}</li>
-            {% endfor %}
-        </ul>
+<h1 style="margin-left: 2%;">Rankings</h1>
+    {% if art != None %}
+        <div class="ranking">
+            <div class="flex-child" id="album-list2">
+                <h2>Albums</h2>
+                <form action="" method="get">
+                        {% for x in sort_albs %}
+                        <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
+                        <label>{{ x.name }}: {{ x.score }}</label></br>
+                        {% endfor %}
+                </form>
+            </div>
+            <div class='flex-child' id="songs-from">
+            {% if to_show is not none %}
+                <h2>Songs From {{ to_show.name }}</h2>
+                <ul style="list-style: none; margin:0; padding:0">
+                    {% for son in ordered %}
+                        <li>{{ loop.index }}. {{ son.name }}: {{ son.score }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h2>All Songs</h2>
+                <ul>
+                    {% for top in topten %}
+                        <li>{{ loop.index }}. {{ top.name }}: {{ top.score }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <div class='playing-link'>
+                <a href="{{ url_for('main.index') }}">Keep Playing</a>
+            </div>
+            </div>
+        </div>
     {% endif %}
-    <div class='rankings-link'>
-        <a href="{{ url_for('main.index') }}">Keep Playing</a>
-    </div>
-    </div>
+    
 {% endblock %}

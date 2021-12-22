@@ -1,5 +1,6 @@
 html {
     font-size: 22px;
+    overflow-y: scroll;
 }
 
 h1 {
@@ -133,15 +134,8 @@ nav {
     position: fixed;
 }
 
-.album-list2 {
-    text-align: left;
-    height: 65%; /* Full-height: remove this if you want "auto" height */
-    width: 26%; /* Set the width of the sidebar */
-    bottom: 8%;
-    right: 56%;
+#album-list2 {
     background-color: #D0E9F1; 
-    overflow: hidden;
-    position: fixed;
 }
 
 .chooser {
@@ -155,6 +149,20 @@ nav {
     position: fixed;
 
 }
+
+#songs-from {
+    background-color: #D0E9F1; 
+}
+
+.ranking {
+    display: flex;
+    margin-left: 2%;
+}
+
+.flex-child {
+    flex: 1;
+}
+
 
 .choice-1 {
     text-align: center;
@@ -178,6 +186,12 @@ nav {
     overflow: hidden;
     position: fixed;
 
+}
+
+.playing-link {
+    text-align: center;
+    background-color: #D0E9F1; 
+    margin-top: 20px;
 }
 
 .rankings-link {
