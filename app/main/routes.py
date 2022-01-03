@@ -64,8 +64,9 @@ def index():
             to_change = album_data[int(alber)]
     if to_change != None:
         to_change.swap()
-        db.session.add(artist)
-        db.session.add(to_change)
+        # db.session.add(artist)
+        # db.session.add(to_change)
+        db.session.add_all([artist, to_change])
         db.session.commit()
         update_albums()
         game_songs = Ranking.new_battle(song_data)
@@ -80,10 +81,11 @@ def index():
         user.rounds += 1
         artist.rounds += 1
 
-        db.session.add(user)
-        db.session.add(artist)
-        db.session.add(game_songs[0])
-        db.session.add(game_songs[1])
+        local_user = db.session.merge(user)
+        local_artist = db.session.merge(artist)
+        local_song0 = db.session.merge(game_songs[0])
+        local_song1 = db.session.merge(game_songs[1])
+        db.session.add_all([local_user, local_artist, local_song0, local_song1])
         db.session.commit()
 
         song_data.sort()
@@ -93,11 +95,10 @@ def index():
 
     if game_songs[0] != None and artist != None:
         for s in range(len(game_songs)):
-            db.session.add(game_songs[s])
-            db.session.commit()
-            db.session.add(game_songs[s].owner)
-            db.session.commit()
-            images[s] = game_songs[s].owner.cover
+            local_song = db.session.merge(game_songs[s])
+            local_owner = db.session.merge(local_song.owner)
+            images[s] = local_owner.cover
+            db.session.add_all([local_song, local_owner])
             db.session.commit()
 
     return render_template('main/index.html', album_data=album_data, album_data_off=album_data_off, game_songs=game_songs, images=images, newform=newform, artistform=artistform, topten=topten, art=artist)
@@ -143,6 +144,7 @@ def form_checks():
                 alb.score = sum([s.score for s in alb.songs.all()]) / len(alb.songs.all())
                 db.session.add(alb)
                 db.session.add(artist)
+                db.session.add_all([alb, artist])
             db.session.commit()
 
             sort_albs = sorted(album_data)

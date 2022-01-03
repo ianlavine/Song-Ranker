@@ -27,8 +27,8 @@ def new_battle(Songs):
         offby = abs(choice - coolmath())
     else:
         offby = choice + coolmath()
-        if offby > len(Songs) - 1:
-            offby = offby - (offby - (len(Songs) - 1))
+    if offby > len(Songs) - 1:
+        offby = random.randint(0, len(Songs) - 1)
     Song1 = Songs[choice]
     Song2 = Songs[offby]
     return [Song1, Song2]
