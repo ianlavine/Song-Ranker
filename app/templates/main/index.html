@@ -7,15 +7,15 @@
                 <h3>In Rotation: {{ album_data|length }}</h3>
                 <form action="" method="get">
                     {% for x in album_data %}
-                        <input type="submit" id="htmlo" name="alber" value= {{ loop.index0 }}>
-                        <label>{{ x.name }}</label></br>
+                        <button type="submit" name="alber" id=a{{ loop.index0 }} value={{ loop.index0 }}></button>
+                        <label for=a{{ loop.index0 }}>{{ x.name }}</label><br>
                     {% endfor %}
                 </form> 
                 <h3>Excluded: {{ album_data_off|length }}</h3>
                 <form action="" method="get">
                     {% for x in album_data_off %}
-                        <input type="submit" id="htmlo" name="alber2" value= {{ loop.index0 }}>
-                        <label>{{ x.name }}</label></br>
+                        <button type="submit" name="alber2" id=b{{ loop.index0 }} value={{ loop.index0 }}></button>
+                        <label for=b{{ loop.index0 }}>{{ x.name }}</label><br>
                     {% endfor %}
                 </form>
             </div>
@@ -26,14 +26,19 @@
                 <form action="" method="get">
                     {% if game_songs %}
                     <div class='choice-1'>
-                        <img src= {{ images[0] }}></br>
+                        <button type="submit" name="songer" value=0>
+                            <img src= {{ images[0] }}></br>
+                            {{ game_songs[0].name }}
+                        </button>
+                        <!-- <img src= {{ images[0] }}></br>
                         <input type="submit" id="htmlo" name="songer" value=0>
-                        <label>{{ game_songs[0].name }}</label>
+                        <label>{{ game_songs[0].name }}</label> -->
                     </div>
                     <div class='choice-2'>
-                        <img src= {{ images[1] }}></br>
-                        <input type="submit" id="htmlo" name="songer" value=1>
-                        <label>{{ game_songs[1].name }}</label>
+                        <button type="submit" name="songer" value=1>
+                            <img src= {{ images[1] }}></br>
+                            {{ game_songs[1].name }}
+                        </button>
                     </div>
                     {% endif %}
             </ul>
