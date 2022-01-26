@@ -3,7 +3,7 @@ from app.main import bp
 from app.main.forms import newArtistForm, selectArtistForm
 from flask import request, render_template
 import Ranking
-from flask_login import current_user, login_manager, login_required
+from flask_login import current_user, login_required
 from app.models import User, Artist, Album, Song
 import user_data
 
@@ -64,8 +64,6 @@ def index():
             to_change = album_data[int(alber)]
     if to_change != None:
         to_change.swap()
-        # db.session.add(artist)
-        # db.session.add(to_change)
         db.session.add_all([artist, to_change])
         db.session.commit()
         update_albums()
@@ -167,14 +165,6 @@ def form_checks():
             artistform = update_artist_form(user)
 
     return (newform, artistform)
-
-
-def update_data(form):
-
-    global artist, album_data, album_data_off, song_data
-
-    artist = Artist.query.filter_by(id=form.select_artist.data).first_or_404()
-    update_albums()
     
 
 def update_albums():

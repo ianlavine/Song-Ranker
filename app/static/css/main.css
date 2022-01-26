@@ -176,6 +176,12 @@ nav {
     flex: 1;
 }
 
+.scroll-select {
+    overflow: auto;
+    height: 300px;
+    width: 70%;
+}
+
 
 .choice-1 {
     font-size: 20px;
@@ -206,7 +212,9 @@ nav {
 .playing-link {
     text-align: center;
     background-color: #D0E9F1; 
-    margin-top: 20px;
+    bottom: 8%;
+    overflow: hidden;
+    position: fixed;
 }
 
 .rankings-link {

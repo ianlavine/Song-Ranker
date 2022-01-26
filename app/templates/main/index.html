@@ -3,8 +3,10 @@
 {% block centre %}
         {% if art != None %}
             <div class="album-list">
+                <h2>{{ owner }}</h2>
                 <h2>Albums</h2>
                 <h3>In Rotation: {{ album_data|length }}</h3>
+                <div class='scroll-select'>
                 <form action="" method="get">
                     {% for x in album_data %}
                         <button type="submit" name="alber" id=a{{ loop.index0 }} value={{ loop.index0 }}></button>
@@ -18,6 +20,7 @@
                         <label for=b{{ loop.index0 }}>{{ x.name }}</label><br>
                     {% endfor %}
                 </form>
+                </div>
             </div>
             <div class='chooser'>
             
@@ -30,9 +33,6 @@
                             <img src= {{ images[0] }}></br>
                             {{ game_songs[0].name }}
                         </button>
-                        <!-- <img src= {{ images[0] }}></br>
-                        <input type="submit" id="htmlo" name="songer" value=0>
-                        <label>{{ game_songs[0].name }}</label> -->
                     </div>
                     <div class='choice-2'>
                         <button type="submit" name="songer" value=1>
