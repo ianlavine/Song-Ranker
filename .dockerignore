@@ -1,0 +1,39 @@
+# flyctl launch added from .gitignore
+# Python pycache:
+**/__pycache__
+# Ignored by the build system
+setup.cfg
+
+**/app/__pycache__
+
+**/venv
+
+**/app.db
+
+Caddyfile
+
+# flyctl launch added from react-flask-app/.gitignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+react-flask-app/node_modules
+react-flask-app/.pnp
+react-flask-app/**/.pnp.js
+
+# testing
+react-flask-app/coverage
+
+# production
+react-flask-app/build
+
+# misc
+react-flask-app/**/.DS_Store
+react-flask-app/**/.env.local
+react-flask-app/**/.env.development.local
+react-flask-app/**/.env.test.local
+react-flask-app/**/.env.production.local
+
+react-flask-app/**/npm-debug.log*
+react-flask-app/**/yarn-debug.log*
+react-flask-app/**/yarn-error.log*
+fly.toml
