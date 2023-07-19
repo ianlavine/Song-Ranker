@@ -21,4 +21,3 @@ https://songranker.tech/
 ![](https://imgur.com/QLGHl4S.png)
 ### Rankings Page
 ![](https://imgur.com/m3QP5H7.png)
-
