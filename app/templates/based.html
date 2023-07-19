@@ -1,28 +1,58 @@
-<html>
+<html style="overflow: hidden;">
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
         {% if title %}
         <title>{{ title }} - Music Ranker</title>
         {% else %}
         <title>Music Ranker</title>
         {% endif %}
+        <style>
+            /* Style for the modal overlay */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+                z-index: 9999;
+            }
+
+            /* Style for the modal content */
+            .modal-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            }
+        </style>
     </head>
-    <body>
-        <div class="wrapper">
-            <nav class="topnav">
-                <ul class='nav-list'>
-                    <li class='nav-title'><h1>Song Ranker</h1></li>
-                        <li><ul style="list-style-type: none;" class='items'>
-                            <li>{{ current_user.username }}</li>
-                            <li>Artists: {{ artistform.length }}</li>
-                            <li>Rounds Played: {{ current_user.rounds }}</li>
-                        </ul></li>
-                </ul>
+    <body style="font-family: 'Inter', sans-serif; width: 100%;">
+            <nav style="height: 150px; position: fixed; top: 0; left: 0; display: flex; flex-direction: row; justify-content: space-between; background-color: #40916C; width: 100%; align-items: center;">
+                <button onClick="openModal()" style="background-color: white; border-radius: 200px; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); height: 70px; width: 160px; display: flex; align-items: center; justify-content: center; margin-left: 70px; border: none; cursor: pointer;">
+                    <p style="font-weight: 600; border: none; font-size: 18px; ">How To Play</p>
+                </button>
+                <div>
+                    <h1 style="text-align: center; font-size: 60px; color: white;">SongRanker</h1>
+                </div>
+                <div style="background-color: white; border-radius: 20px; box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); margin-right: 40px; padding: 10px; line-height: 0.5; padding-left: 20px; padding-right: 20px;">
+                    <p style="color: #40916C;"><b>{{ current_user.username }}</b></p>
+                    <p style=""><b>Artists: </b>{{ artistform.length }}</p>
+                    <p style=""><b>Rounds Played: </b>{{ current_user.rounds }}</p>
+                </div>
             </nav>
-            <div class="sidenav">
-                <h2>Artists</h2>
-                <form action="" method="post" novalidate>
-                    <div class='artist'>
+            <div style="height: calc(100% - 240px); background-color: black; color: white; width: 300px; position: fixed; top: 0; left: 0; margin-top: 150px;">
+                
+                <h2 style="text-align: center; font-size: 36px;">Artists</h2>
+                <form action="" method="post" novalidate style="text-align: center;">
+                    <div style="background-color: white; color: black; margin-left: 60px; margin-right: 60px; border-radius: 24px; min-height: 100px; padding: 20px; margin-bottom: 20px;">
                     {% for subfield in artistform.select_artist %}
                         <td>
                             <tr>{{ subfield }}</tr>
@@ -35,25 +65,46 @@
                         {{ artistform.remove() }}
                     </div>
                 </form>
-                <form action="" method="post" novalidate>
-                    
+
+                <h2 style="text-align: center; font-size: 36px;">Add Artist</h2>
+                <form action="" method="post" novalidate style="background-color: white; border-radius: 24px; color: black; margin-left: 40px; margin-right: 40px; display: flex; flex-direction: row; padding: 20px;">
                     <div class='input'>
                         {{ newform.hidden_tag() }}
-                        {{ newform.new_artist.label}}
-                        {{ newform.new_artist(size=32) }}
+                        {{ newform.new_artist(size=16) }}
                     </div>
-                    <div class='buttons'> {{ newform.submit() }}</div>
+                    <div style=""> {{ newform.submit() }}</div>
                 </form>
             </div>
-        </div>
-        <div class="centrenav">
+        <div style="background-color: #D8F3DC; width: calc(100% - 300px); position: fixed; top: 0; left: 0; margin-left: 300px; margin-top: 150px; height: calc(100% - 240px);">
             {% block centre %}{% endblock %}
         </div>
-    </body>
-    <div class="bottomnav">
-        <ul style="list-style-type: none;">
-            <li class="bottom-child">Contact Creator: <a href="mailto: ianlster304@gmail.com">Ian Lavine</a></li>
-            <li class="bottom-right-child"><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-        </ul>
+    <div style="width: 100%; position: fixed; bottom: 0; left: 0; height: 90px; background-color: #40916C; display: flex; flex-direction: row; justify-content: space-between; align-items: center; color: white;">
+        <p style="margin-left: 80px;">Created by <a href="mailto: ianlster304@gmail.com" style="text-decoration: none; font-weight: 700; color: white;">Ian Lavine</a></p>
+        <div style="display: flex; flex-direction: row; justify-content: flex-end;">
+            <p style="margin-right: 10px; background-color: white; border-radius: 24px; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;"><a href="{{ url_for('main.ranks') }}" style="color: black; text-decoration: none; font-weight: 600;">See Rankings</a></p>
+            <p style="margin-right: 80px; background-color: lightcoral; border-radius: 24px; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;"><a href="{{ url_for('auth.logout') }}" style="color: white; text-decoration: none; font-weight: 600;">Logout</a></p>
+        </div>
     </div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <h2>How To Play SongRanker</h2>
+            <p>To get started, type in the name of an artist whose music you'd like to rank. Once you've entered their name, simply click submit and they'll be added to your artists tab.
+                From this tab, you can select which artists you'd like in your ranking rotation. You can only rank one artists music at a time. Once you've selected an artist, you'll see
+                their albums, and you can choose which albums you'd like to include/exclude from your ranking session. Then, simply pick which song you think is better from the two given options
+                and you'll start to build your profile. If you'd like to see your rankings thus far, click the see rankings button in the bottom right and get a detailed view of your results.
+            </p>
+            <button onclick="closeModal()" style="border: none; background-color: #40916C; width: 200px; height: 50px; font-size: 18px; font-weight: 700; color: white; border-radius: 24px;">Close</button>
+        </div>
+    </div>
+    <script>
+        // JavaScript functions to open and close the modal
+        function openModal() {
+            document.getElementById('modalOverlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+    </script>
+    </body>
 </html>

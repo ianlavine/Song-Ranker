@@ -1,6 +1,6 @@
 html {
     font-size: 22px;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 h1 {
@@ -61,20 +61,15 @@ h3 {
     position: relative;
 }
 
-nav {
-    width: 100%; /* Set the width of the sidebar */
-    margin-left: 200px;
-}
 
 .topnav {
-    height: 15%; /* Full-height: remove this if you want "auto" height */
+    height: 170px;
     width: 86%; /* Set the width of the sidebar */
     top: 0;
     right: 0;
     background-color: #89C2D9;
     overflow: hidden;
     position: fixed;
-    justify-content: space-between;
 }
 
 .nav-title {

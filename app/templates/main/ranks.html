@@ -1,10 +1,11 @@
 {% extends "based.html" %}
 
 {% block centre %}
-<h1 style="margin-left: 2%;">Rankings</h1>
+<h2 style="font-weight: 700; font-size: 36px; margin-top: 30px; width: 100%; text-align: center;">Rankings</h2>
     {% if art != None %}
-        <div class="ranking">
-            <div class="flex-child" id="album-list2">
+        <div style="display: flex; flex-direction: row; align-items: stretch; justify-content: center;">
+
+            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-right: 5px; padding-left: 30px; padding-right: 30px;" id="album-list2">
                 <h2>Albums</h2>
                 <div class='scroll-select'>
                 <form action="" method="get">
@@ -15,7 +16,8 @@
                 </form>
                 </div>
             </div>
-            <div class='flex-child' id="songs-from">
+
+            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-left: 5px; padding-left: 30px; padding-right: 30px;" id="songs-from">
             {% if to_show is not none %}
                 <h2>Songs From {{ to_show.name }}</h2>
                 <div class='scroll-select'>
@@ -37,12 +39,11 @@
                     {% endfor %}
                 </ul>
                 </div>
-                <div class='playing-link'>
-                    <a href="{{ url_for('main.index') }}">Keep Playing</a>
-                </div>
             {% endif %}
             </div>
-            
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+            <p style="background-color: white; border-radius: 100px; padding: 20px; width: 20%;"><a href="{{ url_for('main.index') }}" style="text-decoration: none; color: black; font-weight: 700;" >Keep Playing</a></p>
         </div>
     {% endif %}
     
