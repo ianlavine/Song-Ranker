@@ -5,7 +5,7 @@
     {% if art != None %}
         <div style="display: flex; flex-direction: row; align-items: stretch; justify-content: center;">
 
-            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-right: 5px; padding-left: 30px; padding-right: 30px;" id="album-list2">
+            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-right: 5px; padding-left: 30px; padding-right: 30px; max-height: 500px;" id="album-list2">
                 <h2>Albums</h2>
                 <div class='scroll-select'>
                 <form action="" method="get">
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-left: 5px; padding-left: 30px; padding-right: 30px;" id="songs-from">
+            <div style="background-color: white; border-radius: 24px; padding: 20px; margin-left: 5px; padding-left: 30px; padding-right: 30px; max-height: 500px; overflow-y: auto;" id="songs-from">
             {% if to_show is not none %}
                 <h2>Songs From {{ to_show.name }}</h2>
                 <div class='scroll-select'>
