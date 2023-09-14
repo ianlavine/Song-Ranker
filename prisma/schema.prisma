@@ -1,0 +1,71 @@
+// schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  userAlbums UserAlbum[]
+  userSongs  UserSong[]
+}
+
+model Artist {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+
+  albums    Album[]
+}
+
+model Album {
+  id       Int     @id @default(autoincrement())
+  name     String
+  artistId Int
+  artist   Artist  @relation(fields: [artistId], references: [id])
+
+  songs    Song[]
+  userAlbums UserAlbum[]
+}
+
+model Song {
+  id      Int    @id @default(autoincrement())
+  name    String
+  albumId Int
+  album   Album  @relation(fields: [albumId], references: [id])
+
+  userSongs UserSong[]
+}
+
+model UserAlbum {
+  id       Int     @id @default(autoincrement())
+  userId   Int
+  user     User    @relation(fields: [userId], references: [id])
+  albumId  Int
+  album    Album   @relation(fields: [albumId], references: [id])
+  included Boolean
+
+  @@unique([userId, albumId])
+}
+
+model UserSong {
+  id        Int   @id @default(autoincrement())
+  userId    Int
+  user      User  @relation(fields: [userId], references: [id])
+  songId    Int
+  song      Song  @relation(fields: [songId], references: [id])
+  ELOScore  Int
+
+  @@unique([userId, songId])
+}

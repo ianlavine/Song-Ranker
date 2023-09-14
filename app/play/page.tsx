@@ -1,6 +1,7 @@
 "use client"
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
+import prisma from "../../lib/prisma";
 
 const mockArtists = ["Kanye West", "Russ", "Taylor Swift",  "P!ink"]
 const mockAlbums = [

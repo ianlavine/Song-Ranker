@@ -2,6 +2,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useRouter } from 'next/navigation'
+import prisma from '../../lib/prisma'
 
 const contentCards = [
   {title: "What is it?", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus condimentum urna ut sagittis. Phasellus et lobortis leo. Nunc accumsan ante ipsum, at rhoncus libero vestibulum ut. Donec volutpat lorem dui. Duis eu sodales magna, euismod vehicula magna. Sed pretium nec nisi quis fringilla. Mauris egestas ligula tristique feugiat dictum. Proin euismod, diam et iaculis accumsan, velit urna lobortis nulla, ac aliquet sapien nunc sit amet ipsum. Vestibulum sed rutrum eros, ut ornare ante. Sed faucibus gravida mauris, nec laoreet massa volutpat sed. Nunc sagittis ipsum vel libero tincidunt faucibus. Ut turpis sapien, finibus ut neque sit amet, sollicitudin euismod enim. Integer ultricies dui eu nulla ornare, imperdiet facilisis tellus convallis. Pellentesque dui nunc, tempus id efficitur venenatis, varius at sapien.", image: ""},
