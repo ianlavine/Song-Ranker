@@ -39,7 +39,7 @@ export default function Home() {
               {item.content}
             </Typography>
           </Box>
-          <Box id="image-placeholder" sx={{ backgroundColor: 'grey', width: '100%', height: '200px' }}>
+          <Box key={item.title} id="image-placeholder" sx={{ backgroundColor: 'grey', width: '100%', height: '200px' }}>
 
           </Box>
         </>
