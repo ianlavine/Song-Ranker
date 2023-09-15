@@ -34,6 +34,7 @@ model Album {
   name     String
   artistId Int
   artist   Artist  @relation(fields: [artistId], references: [id])
+  image    String
 
   songs    Song[]
   userAlbums UserAlbum[]
