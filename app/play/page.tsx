@@ -18,10 +18,10 @@ const mockAlbums = [
 const mockSongs = [{name: "Champagne Problems", album: "Evermore", image: ""}, {name: "Illicit Affairs", album: "Folklore", image: ""}]
 
 export default function Play() {
-    const [activeArtist, setActiveArtist] = useState("")
+    const [activeArtist, setActiveArtist] = useState("Taylor Swift")
     return (
         <>
-            <Box id="page-container" sx={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', height: 'calc(100vh - 124px)' }}>
+            {/* <Box id="page-container-1" sx={{ display: 'flex', flexDirection: 'row', alignContent: 'center', justifyContent: 'center', height: 'calc(100vh - 124px)' }}>
                 <Box id="column-1" sx={{ width: '20%', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box id="overall-stats" sx={{ backgroundColor: 'lightgrey', padding: '40px', width: 'calc(100% - 80px)' }}>
                         <Typography sx={{ fontWeight: '600' }}>
@@ -147,6 +147,48 @@ export default function Play() {
                         ))}
                     </Box>
                 </Box>
+            </Box> */}
+            <Box id="page-container-2" sx={{ display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'top', height: 'calc(100vh - 124px)' }}>
+                <Box id="row1" sx={{ border: '1px solid red', textAlign: 'left', width: '100%', padding: '40px' }}>
+                    <Typography sx={{ fontSize: '72px' }}>
+                        {activeArtist}
+                    </Typography>
+                </Box>
+                <Box id="row2" sx={{ border: '1px solid blue' }}>
+                    <Box id="col1">
+                        <Box id="" sx={{ width: '20%', padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <Box id="included" sx={{ backgroundColor: 'lightgrey', padding: '40px', width: 'calc(100% - 80px)' }}>
+                                <Typography sx={{ fontWeight: '600' }}>
+                                    Included Albums
+                                </Typography>
+                                {mockAlbums.map((item) => (
+                                    <>
+                                        {item.selected == true && (
+                                            <Typography>
+                                                {item.name}
+                                            </Typography>
+                                        )}
+                                    </>
+                                ))}
+                            </Box>
+                            <Box id="excluded" sx={{ backgroundColor: 'lightgrey', padding: '40px', width: 'calc(100% - 80px)', marginTop: '20px' }}>
+                                <Typography sx={{ fontWeight: '600' }}>
+                                    Excluded Albums
+                                </Typography>
+                                {mockAlbums.map((item) => (
+                                    <>
+                                        {item.selected == false && (
+                                            <Typography>
+                                                {item.name}
+                                            </Typography>
+                                        )}
+                                    </>
+                                ))}
+                            </Box>
+                        </Box>
+                    </Box>
+                </Box>
+                
             </Box>
             <Box id="footer" sx={{ height: '50px', width: '100%', backgroundColor: 'black', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography sx={{ color: 'white', margin: '20px' }}>Ian Lavine | Contact</Typography>
